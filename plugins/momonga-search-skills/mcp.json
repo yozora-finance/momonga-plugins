@@ -1,0 +1,26 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json",
+  "mcpServers": {
+    "momonga": {
+      "type": "streamable-http",
+      "url": "https://mcp.momongasearch.com/mcp",
+      "extensions": {
+        "com.openai": {
+          "auth": {
+            "type": "oauth",
+            "baseScopes": [
+              "openid",
+              "offline_access",
+              "momonga:read"
+            ],
+            "client": {
+              "mode": "provided",
+              "clientId": "pwPehWbWGeAMiRSKeMvVupqsmUZuwVxt",
+              "tokenEndpointAuthMethod": "none"
+            }
+          }
+        }
+      }
+    }
+  }
+}

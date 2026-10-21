@@ -1,0 +1,26 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "momonga-search",
+  "version": "0.1.3",
+  "description": "企業・開示資料・ニュースの検索と共通検索Skill。",
+  "author": {
+    "name": "Yozora Finance"
+  },
+  "repository": "https://github.com/yozora-finance/momonga-plugins",
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "モモンガサーチ",
+        "shortDescription": "企業・開示資料・ニュースの検索と共通検索Skill。",
+        "developerName": "Yozora Finance",
+        "category": "Productivity",
+        "capabilities": [
+          "Read"
+        ],
+        "defaultPrompt": [
+          "トヨタ自動車（7203）の直近の決算を出典付きで調べて"
+        ]
+      }
+    }
+  }
+}
