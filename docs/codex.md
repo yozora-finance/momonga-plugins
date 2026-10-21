@@ -1,71 +1,69 @@
-# Codex で接続する
+# Codex
 
-[ガイドのトップ](README.md)
+[使い方のトップ](README.md)
 
-![Codexの導入から認証まで](images/codex-flow.svg)
+## プラグインを入れる
 
-## 1. Codex に導入を頼む
-
-Codex のデスクトップ画面を開き、新しいチャットに次を貼り付けます。
+Codexの新しいチャットに、次をそのまま貼り付けてください。
 
 ```text
-モモンガサーチ＋スキルをこのPCのCodexで使えるようにしてください。
-1. codex --version と git --version でCLIを確認してください。
-   未導入ならOSに合う公式手順で導入を案内してください。
-2. 次を実行してください。
-   codex plugin marketplace add yozora-finance/momonga-plugins --ref main
-   codex plugin add momonga-search-skills@momonga
-3. インストール結果を確認し、アプリのプラグイン接続設定から
-   モモンガへのOAuthログインを始める場所を案内してください。
-   ログインと権限の許可は自分で行います。
-4. 最後に、新しいチャットでモモンガを選ぶ方法と検索の試し方を教えてください。
+モモンガサーチのプラグインを入れてください。
+codex と git が使えるか確認し、なければ公式の導入手順を案内してください。
+使えるようになったら、次の2行を実行してください。
+
+codex plugin marketplace add yozora-finance/momonga-plugins --ref main
+codex plugin add momonga-search-skills@momonga
+
+終わったら、プラグイン画面からモモンガに接続する場所を教えてください。
+ログインと接続の許可は自分で行います。
 ```
 
-自分で設定する場合は、[公式CLIの導入ガイド](https://learn.chatgpt.com/docs/codex/cli)に従って CLI を用意し、ターミナル（Windows は PowerShell）で次を実行します。
+実行が終わったら、アプリの **「プラグイン」→「ディレクトリ」**を開きます。
+**「Momonga by Yozora Finance」**の **「モモンガサーチ＋スキル」**を開いてください。
+見つからない場合は、アプリを再起動します。
+
+<details>
+<summary>自分でターミナルから入れる場合</summary>
+
+[公式手順](https://learn.chatgpt.com/docs/codex/cli)でCodex CLIを用意し、次を実行します。
 
 ```sh
 codex plugin marketplace add yozora-finance/momonga-plugins --ref main
 codex plugin add momonga-search-skills@momonga
 ```
 
-検索のみの通常版を選ぶ場合は、2行目を `codex plugin add momonga-search@momonga` に置き換えます。
+検索のみの版を使う場合は、2行目を `codex plugin add momonga-search@momonga` に変えます。
 
-## 2. プラグインを開く
+</details>
 
-**Plugins／プラグイン → ディレクトリ**で **Momonga by Yozora Finance** を探します。
-**モモンガサーチ＋スキル**がインストール済みで有効か確認してください。
-カタログが表示されなければ、アプリを終了して起動し直します。
+## モモンガにログインする
 
-## 3. モモンガへの接続を完了する
+プラグインの接続設定で **「Connect／接続」**を押します。
+ブラウザが開いたらモモンガにログインし、接続の許可を済ませてCodexに戻ります。
 
-プラグイン詳細の接続設定から **Connect／接続**を選び、ブラウザでモモンガのアカウントにログインします。
-要求された権限を確認して許可し、元のアプリに戻ります。
+インストール後も「接続」が残っている場合は、この操作が必要です。
 
-![認証で行う操作](images/auth-flow.svg)
+## 使ってみる
 
-[認証の詳しい説明と完了条件](authentication.md)を確認してください。
-CLI のインストールが成功しても、OAuth 認証まで済んだとは限りません。
-
-## 4. 新しいチャットで使う
-
-入力欄で **`@`** を入力してモモンガのプラグイン／Skill を選び、次を送ります。
+新しいチャットの入力欄で **`@`** を打ち、モモンガを選んで次を送ります。
 
 ```text
-モモンガサーチを使って、トヨタ自動車（7203）の直近決算を出典付きで調べて。
+トヨタ自動車（7203）の直近決算を出典付きで調べて。
 ```
 
-ツール使用の確認が出たら内容を確認して許可します。モモンガのツールが動き、出典付きの結果が返ることを確認してください。
-分析コマンドを使う場合も、候補から `factsheet` などの Skill を選択して企業名を続けます。
-
-CLI では `/plugins` でプラグインを確認し、導入後は新しいセッションを開始します。
-ローカルCLIのOAuthコールバックはデスクトップのクラウド接続とは異なるため、このガイドでは**デスクトップの接続設定で認証する手順**を案内しています。CLIだけでの認証完了は未確認です。
+ツールの使用を確認されたら、内容を見て許可します。モモンガの検索結果と出典が返ってくることを確かめてください。
+分析するときも、`@` の候補から `factsheet` などを選び、会社名を続けます。
 
 ## 更新する
+
+Codexに次の実行を頼んでください。
 
 ```sh
 codex plugin marketplace upgrade momonga
 ```
 
-その後、プラグイン画面に更新が表示される場合は適用し、新しいチャットを開きます。
+プラグイン画面に「更新」が出たら押します。更新後は新しいチャットを使ってください。
 
-[コマンド一覧](commands.md) · [困ったとき](troubleshooting.md)
+[コマンド一覧](commands.md) ／ [困ったとき](troubleshooting.md)
+
+※ここではデスクトップでの接続方法を案内しています。CLIだけでの認証は未確認です。
