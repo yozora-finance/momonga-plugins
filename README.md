@@ -13,6 +13,14 @@ Claude・Codex・ChatGPT向けのモモンガサーチ公式プラグインで�
 サーバー側の利用権限は、ログインした本人・法人の契約に従います。
 接続ごとのSkills追加許可は不要です。
 
+## 画像付きの接続・利用ガイド
+
+**[はじめての方はこちら](docs/README.md)** — 認証から最初の検索まで、アプリ別に案内します。
+
+[Claude Web](docs/claude-web.md) · [Claude Desktop](docs/claude-desktop.md) · [Codex](docs/codex.md) · [ChatGPT](docs/chatgpt.md)
+
+[24種のコマンド一覧](docs/commands.md) · [トラブルシューティング](docs/troubleshooting.md)
+
 ## Codex
 
 Codex CLIでマーケットプレイスを登録し、プラグインをインストールします。
