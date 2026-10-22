@@ -14,8 +14,6 @@
 - [Claude（Web・Desktop）](claude.md)
 - [Codex・ChatGPT（デスクトップ）](personal.md)
 
-ChatGPT Webには、デスクトップで追加したローカルマーケットプレイスは引き継がれません。
-
 ### 会社のワークスペース
 
 - [管理者向け：初回設定](administrators.md)
