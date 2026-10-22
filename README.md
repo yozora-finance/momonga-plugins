@@ -30,11 +30,12 @@ ChatGPTワークスペースにこのリポジトリを取り込む方式はDesk
 |---|---|
 | `.agents/plugins/marketplace.json` | ChatGPT・Codex向けカタログ |
 | `.claude-plugin/marketplace.json` | Claude向けカタログ |
-| 各プラグインの `plugin.json` / `mcp.json` | Agent Plugins形式のマニフェストとOpenAI向けOAuth設定 |
+| 各プラグインの `.codex-plugin/plugin.json` | デスクトップ向けマニフェスト、MCP接続、OAuth設定 |
 | 各プラグインの `.claude-plugin/plugin.json` / `.mcp.json` | Claude向け設定 |
 | 各プラグインの `skills/` | 全ホストで共有するSkills |
 
-OpenAI向けのOAuth設定には、登録済みのChatGPT用公開client IDのみを含みます。
+Codex向けのOAuth設定には、登録済みのCLI用公開client IDと固定の戻り先ポート18780を含みます。
+デスクトップアプリの「設定」→「MCPサーバー」から `momonga` の「認証／Authenticate」を押してください。
 Claude向けの `.mcp.json` はMCP URLだけを含みます。Claude Chat・Desktop・Claude Codeは、
 それぞれClaudeが公開しているclient IDでログインします（Client ID Metadata Document）。
 APIキー、client secret、アクセストークンは含みません。
@@ -42,8 +43,10 @@ APIキー、client secret、アクセストークンは含みません。
 
 ## 検証範囲
 
-0.1.6では両カタログの1本化、表示名、25 Skillsの同梱、Claudeマニフェストを検証しています。
+0.1.8では、現在のデスクトップアプリが対応するCodex形式に変更しています。
+アプリ内蔵版0.163.0-alpha.10.2でMCPサーバー1件・25 Skillsの認識と、
+登録済みclient ID・戻り先・scopeを使ったOAuth開始、Momongaログイン画面への遷移を確認しています。
+ログイン・同意の完了から検索結果取得までの実機確認は未完了です。
 過去の接続画面・更新確認は[確認資料](docs/sources.md)に記録しています。
-ChatGPT・CodexでのOAuth完了から検索結果取得までの実機確認は未完了です。
 
 形式の仕様：[OpenAIプラグインのパッケージング](https://developers.openai.com/plugins/build/plugins)。
