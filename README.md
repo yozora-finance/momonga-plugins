@@ -100,9 +100,9 @@ ZIPから導入した旧 `Momonga commands` はリポジトリ版へ自動移行
 | 各プラグインの `.claude-plugin/plugin.json` / `.mcp.json` | Claude向け設定 |
 | 各プラグインの `skills/` | 全ホストで共有するSkills |
 
-OAuth設定には登録済みの公開client IDのみを含みます。
-OpenAIのクラウド接続にはChatGPT用クライアント、Claudeのローカル接続にはCLI用クライアントを使用します。
-ローカルCLI独自のOAuthフローを使う場合は、そのクライアントのコールバックに合う接続設定が必要です。
+OpenAI向けのOAuth設定には、登録済みのChatGPT用公開client IDのみを含みます。
+Claude向けの `.mcp.json` はMCP URLだけを含みます。Claude Chat・Desktop・Claude Codeは、
+それぞれClaudeが公開しているclient IDでログインします（Client ID Metadata Document）。
 APIキー、client secret、アクセストークンは含みません。
 分析手順の本体はサーバーから取得します。サーバー実装や利用者データは含みません。
 

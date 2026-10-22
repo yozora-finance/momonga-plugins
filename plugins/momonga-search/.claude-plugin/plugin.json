@@ -1,7 +1,7 @@
 {
   "name": "momonga-search",
   "displayName": "モモンガサーチ",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "企業・開示資料・ニュースの検索と共通検索Skill。",
   "author": {
     "name": "Yozora Finance"
