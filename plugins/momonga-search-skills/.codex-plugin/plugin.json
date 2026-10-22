@@ -1,7 +1,7 @@
 {
   "name": "momonga-search-skills",
-  "version": "0.1.8",
-  "description": "共通検索Skillと24種の分析コマンド。",
+  "version": "0.1.9",
+  "description": "24種の分析コマンド。",
   "author": {
     "name": "Yozora Finance"
   },
@@ -9,7 +9,7 @@
   "skills": "./skills/",
   "interface": {
     "displayName": "モモンガサーチ",
-    "shortDescription": "共通検索Skillと24種の分析コマンド。",
+    "shortDescription": "24種の分析コマンド。",
     "developerName": "Yozora Finance",
     "category": "Productivity",
     "capabilities": [

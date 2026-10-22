@@ -10,7 +10,7 @@
     {
       "name": "momonga-search-skills",
       "source": "./plugins/momonga-search-skills",
-      "description": "モモンガサーチ — 共通検索Skillと24種の分析コマンド。"
+      "description": "モモンガサーチ — 24種の分析コマンド。"
     }
   ]
 }
