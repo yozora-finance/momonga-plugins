@@ -2,7 +2,7 @@
 
 [ガイドのトップ](README.md)
 
-確認日：2026年10月21日。対象：プラグイン 0.1.3。
+画面確認：2026年10月21日。公式の配布仕様を再確認：2026年10月22日。対象：プラグイン 0.1.3。
 
 ## 確認したもの
 
@@ -10,7 +10,6 @@
 |---|---|
 | リポジトリのマニフェスト | プラグイン2種、マーケットプレイス名、MCP URL、OpenAI向けOAuth設定 |
 | 同梱の Skills | 分析24種の名前・説明、共通検索1種 |
-| Codex CLI のヘルプ | `plugin add`、`plugin marketplace add --ref` の構文 |
 | 公開MCP認証メタデータ | `https://mcp.momongasearch.com/.well-known/oauth-protected-resource/mcp` が示す認証先 `https://auth.momongasearch.com` |
 | Claude Desktop の実画面 | マーケットプレイス追加フォーム、スキル付き版0.1.3、25 Skills、momongaの接続済み表示 |
 

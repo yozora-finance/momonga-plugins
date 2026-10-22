@@ -2,10 +2,8 @@
 
 使っているアプリを選んでください。
 
-- [Claude Web](claude-web.md)
-- [Claude Desktop](claude-desktop.md)
-- [Codex](codex.md)
-- [ChatGPT](chatgpt.md)
+- [Claude（Web・Desktop共通）](claude.md)
+- [Codex・ChatGPT（アプリ・Web）](chatgpt.md)
 
 [コマンド一覧](commands.md) ／ [困ったとき](troubleshooting.md)
 

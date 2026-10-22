@@ -1,10 +1,10 @@
-# Claude Web
+# Claude（Web・Desktop共通）
 
 [使い方のトップ](README.md)
 
 ## プラグインを入れる
 
-[Claude](https://claude.ai/) を開き、**「カスタマイズ」→「プラグイン」**を押します。
+[Claude Web](https://claude.ai/) またはClaudeアプリを開き、**「カスタマイズ」→「プラグイン」**を押します。
 
 ![「プラグイン」タブ。右上に「＋追加」があります](images/claude-plugins.png)
 
@@ -20,7 +20,7 @@ https://github.com/yozora-finance/momonga-plugins
 
 一覧に出てきた **「モモンガサーチ＋スキル」**を追加します。
 
-※画像はClaude Desktopで撮影しています。Webも同じメニューから設定します。1枚目は追加済みの例です。
+※画像はClaude Desktopです。Webも同じ手順です。すでに片方で追加した方は、同じClaudeアカウント・組織でプラグインが表示されるか確認してください。表示されていれば、もう一度追加する必要はありません。
 
 ## モモンガにログインする
 
@@ -28,7 +28,7 @@ https://github.com/yozora-finance/momonga-plugins
 
 ブラウザに認証画面が開いたら、モモンガのアカウントでログインします。許可を求められたら内容を確認して進んでください。ログイン済みの場合は、そのままClaudeに戻ることもあります。
 
-下のように **「接続済み」**と出れば設定は終わりです。
+下のように **「接続済み」**と出れば設定は終わりです。表示が変わらない場合は、Webは再読み込み、Desktopは終了して起動し直してください。
 
 ![momongaの下に「接続済み」と表示されます](images/claude-connected.png)
 

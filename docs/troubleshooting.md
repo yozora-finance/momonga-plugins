@@ -16,18 +16,13 @@
 | 利用制限・429 | 表示された時間を置いて試してください。繰り返す場合は担当者に確認してください。 |
 | 分析が終わらない | 数分かかることがあります。エラーで止まった場合は文面を控え、企業数や期間を絞って試してください。 |
 | 検索が0件 | 会社名に証券コードを添え、期間を広げて試してください。 |
-| ChatGPT Webでスキルが出ない | カスタムMCP接続には分析スキルが含まれません。[デスクトップでの導入方法](chatgpt.md#デスクトップで使う)を使ってください。 |
+| ChatGPT Webでスキルが出ない | カスタムMCP接続には分析スキルが含まれません。[デスクトップでの導入方法](chatgpt.md#プラグインを選ぶ)を使ってください。 |
 | 更新されない | マーケットプレイスを同期してから、プラグインの「更新」を確認します。更新後は新しいチャットを使ってください。 |
-
-## Codexのインストールで止まった場合
-
-`codex: command not found` や `git` が見つからないと出たら、そのエラーをCodexに貼り付けて導入を頼んでください。
-`plugin` コマンドが認識されない場合は、Codex CLIの更新が必要です。
 
 ## 認証でエラーが出た場合
 
 `invalid_client` や `redirect_uri` と出た場合はプラグインを更新して試してください。
-ChatGPTのカスタムMCPを設定している場合は、[設定表](chatgpt.md#webで使う)のclient IDを確認します。戻り先は `https://chatgpt.com/connector_platform_oauth_redirect` です。
+ChatGPTのカスタムMCPを設定している場合は、[設定表](chatgpt.md#webで初めて接続する場合)のclient IDを確認します。戻り先は `https://chatgpt.com/connector_platform_oauth_redirect` です。
 
 ## 解決しない場合
 
