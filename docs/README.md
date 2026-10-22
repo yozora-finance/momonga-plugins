@@ -22,4 +22,4 @@
 
 [ログイン・認証について](authentication.md)
 
-[コマンド一覧](commands.md) ／ [困ったとき](troubleshooting.md) ／ [更新担当者向けの確認メモ](sources.md)
+[コマンド一覧](commands.md) ／ [困ったとき](troubleshooting.md)
