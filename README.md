@@ -22,7 +22,7 @@ Claude・ChatGPT・Codex向けのモモンガサーチ公式プラグインで�
 - [Claude（Web・Desktop、個人・会社共通）](docs/claude.md)
 - [利用者向け：ChatGPT・Codex（デスクトップ）](docs/chatgpt.md)
 - [24種のコマンド一覧](docs/commands.md)
-- [困ったとき](docs/troubleshooting.md)
+- [トラブルシューティング](docs/troubleshooting.md)
 
 ChatGPTワークスペースにこのリポジトリを取り込む方式はDesktop onlyです。ChatGPT Webへの配布は現在の手順に含みません。
 
