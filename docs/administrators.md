@@ -4,6 +4,13 @@
 
 導入先企業のClaude組織、またはChatGPTワークスペースの管理者向けです。プラグインを社員が使える状態にし、各社員には接続手順を案内します。モモンガへのログインは社員それぞれが行います。
 
+配布元は公開リポジトリ `https://github.com/yozora-finance/momonga-plugins` です。
+
+| 利用先 | 管理者が行うこと | 社員が行うこと |
+|---|---|---|
+| Claude | 公開マーケットプレイスの利用を許可し、接続手順を案内 | 公開URLから追加して認証 |
+| Codex・ChatGPT | 公開リポジトリを取り込み、社員に配布 | 会社の一覧からインストールして認証 |
+
 ## Codex・ChatGPT
 
 ### 1. GitHubマーケットプレイスを取り込む
@@ -47,18 +54,22 @@ ChatGPT Webで同じプラグインを使うには、登録済みアプリを `.
 
 ## Claude（Web・Desktop）
 
-### 公開リポジトリを社員が追加する場合
+### 1. 公開マーケットプレイスの利用を確認する
 
-このリポジトリは公開マーケットプレイスとして社員が追加できます。組織で追加元を制限している場合は、管理者が利用可能な配布元か確認し、[Claudeの接続手順](claude.md)を案内してください。
+組織で追加できるマーケットプレイスを制限している場合は、この公開リポジトリを利用できる設定か確認してください。
 
-### 組織でまとめて配布・同期する場合
+```text
+https://github.com/yozora-finance/momonga-plugins
+```
 
-Claude Team／EnterpriseのOwnerまたはPrimary Ownerが設定します。Enterpriseでは、組織ライブラリを管理する権限を持つ役割でも設定できます。組織でCoworkとSkillsの両方が有効になっている必要があります。
+### 2. 社員に接続手順を案内する
 
-**Claudeの組織向けGitHub同期は、github.com上のprivate/internalリポジトリが対象です。この公開リポジトリをそのまま組織の同期元にはできません。** 組織配布が必要な場合は、社内のprivate/internalリポジトリにカタログを用意する構成を導入担当者と決めてください。公開元の更新をどう反映するかも、その際に決めます。
+[Claudeの接続手順](claude.md)を案内してください。社員が **カスタマイズ → プラグイン → ＋追加 → マーケットプレイスを追加 → リポジトリから追加** で公開URLを登録し、「モモンガサーチ＋スキル」を追加します。
 
-社内の同期元を用意したら、**Organization settings → Plugins & skills → Marketplaces → Add plugins → Sync from GitHub** で登録します。対象リポジトリにはClaude GitHub Appのインストールが必要です。取り込み後に配布対象と利用設定を確認し、社員に[Claudeの接続手順](claude.md)を案内してください。
+この公開リポジトリを使う手順では、社員ごとにマーケットプレイスを追加します。管理画面の組織向け **Sync from GitHub** は公開リポジトリを受け付けないため、使いません。
 
-更新は対象マーケットプレイスの **Re-sync** から確認できます。自動同期の条件とGitHub権限は公式資料を参照してください。
+### 更新の案内
 
-[Claude公式：組織への配布とGitHub同期](https://support.claude.com/en/articles/13837433-manage-plugins-for-your-organization)
+社員には、Claudeのマーケットプレイス管理画面で更新を確認してもらいます。プラグインの更新後は、新しいチャットで利用します。
+
+[Claude公式：公開リポジトリからの追加](https://support.claude.com/en/articles/13837440-use-plugins-in-claude) ／ [組織向け同期の対象](https://support.claude.com/en/articles/13837433-manage-plugins-for-your-organization)

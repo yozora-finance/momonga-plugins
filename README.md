@@ -15,6 +15,8 @@ Claude・Codex・ChatGPT向けのモモンガサーチ公式プラグインで�
 
 ## 接続・利用方法
 
+公開リポジトリを配布元として使います。Claudeは社員がマーケットプレイスのURLを追加し、Codex・ChatGPTは管理者が取り込んで社員に配布します。
+
 - [管理者の初回設定：配布・利用許可・更新](docs/administrators.md)
 - [社員向け：Claude（Web・Desktop）](docs/claude.md)
 - [社員向け：Codex・ChatGPT（デスクトップ）](docs/chatgpt.md)
