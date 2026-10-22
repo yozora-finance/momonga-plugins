@@ -66,3 +66,5 @@
 0.1.7で分析コマンドの名前を日本語にしました（`/新着`、`/ファクトシート` など）。説明の末尾に英語の名前も残しています。Codex向けの `.codex-plugin/plugin.json` を追加し、CodexがモモンガのMCP設定を読み込めるようにしました。ClaudeはClaudeが公開しているClient IDでログインします。
 
 0.1.9で共通検索Skill（`momonga-search`）を外しました。同梱のSkillsは分析コマンド24種だけです。
+
+0.2.0でプラグインの内部IDを `momonga-search-skills` から `momonga-search` に変えました。0.1.x を入れている場合は、旧プラグインを外して入れ直してください。
