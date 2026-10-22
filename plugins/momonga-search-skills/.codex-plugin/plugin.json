@@ -1,13 +1,12 @@
 {
   "name": "momonga-search-skills",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "共通検索Skillと24種の分析コマンド。",
   "author": {
     "name": "Yozora Finance"
   },
   "repository": "https://github.com/yozora-finance/momonga-plugins",
   "skills": "./skills/",
-  "mcpServers": "./mcp.json",
   "interface": {
     "displayName": "モモンガサーチ",
     "shortDescription": "共通検索Skillと24種の分析コマンド。",
@@ -19,5 +18,21 @@
     "defaultPrompt": [
       "トヨタ自動車（7203）の直近の決算を出典付きで調べて"
     ]
+  },
+  "mcpServers": {
+    "momonga": {
+      "type": "http",
+      "url": "https://mcp.momongasearch.com/mcp",
+      "scopes": [
+        "openid",
+        "offline_access",
+        "momonga:read"
+      ],
+      "oauth": {
+        "client_id": "KCCnwSuCzRwkVumSRLfZXpximigelVdh",
+        "callback_port": 18780,
+        "callback_url": "http://127.0.0.1/callback"
+      }
+    }
   }
 }
