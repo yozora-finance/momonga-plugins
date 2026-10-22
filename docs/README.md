@@ -5,18 +5,18 @@
 - ChatGPT または Claude のアカウント。Claude のプラグインは有料プラン（Pro・Max・Team・Enterprise）で使えます。ChatGPT はデスクトップ版のアプリが必要です。
 - モモンガサーチの利用アカウント。
 
-## 接続方法を選ぶ
+## 接続方法
 
-公開リポジトリ `https://github.com/yozora-finance/momonga-plugins` から導入します。個人で追加する場合と、会社のワークスペースから配布される場合で手順が異なります。
+個人用か、会社のワークスペースかによって接続手順が異なります。
 
-## 個人で使う
+### 個人用
 
 - [Claude（Web・Desktop）：公開URLから追加](claude.md)
 - [Codex・ChatGPTデスクトップ：公開マーケットプレイスを追加](personal.md)
 
 ChatGPT Webには、デスクトップで追加したローカルマーケットプレイスは引き継がれません。
 
-## 会社のワークスペースで使う
+### ワークスペース
 
 - [管理者の初回設定：利用許可・配布・更新](administrators.md)
 - [社員向け：Claude（Web・Desktop）](claude.md)
