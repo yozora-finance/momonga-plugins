@@ -8,8 +8,8 @@
   },
   "plugins": [
     {
-      "name": "momonga-search-skills",
-      "source": "./plugins/momonga-search-skills",
+      "name": "momonga-search",
+      "source": "./plugins/momonga-search",
       "description": "モモンガサーチ — 24種の分析コマンド。"
     }
   ]

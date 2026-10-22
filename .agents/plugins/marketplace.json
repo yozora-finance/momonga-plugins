@@ -5,10 +5,10 @@
   },
   "plugins": [
     {
-      "name": "momonga-search-skills",
+      "name": "momonga-search",
       "source": {
         "source": "local",
-        "path": "./plugins/momonga-search-skills"
+        "path": "./plugins/momonga-search"
       },
       "policy": {
         "installation": "AVAILABLE",
