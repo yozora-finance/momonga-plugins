@@ -1,7 +1,7 @@
 {
   "name": "momonga-search-skills",
   "displayName": "モモンガサーチ＋スキル",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "共通検索Skillと24種の分析コマンド。",
   "author": {
     "name": "Yozora Finance"
