@@ -11,8 +11,8 @@
 
 ### 個人アカウント
 
-- [Claude（Web・Desktop）：公開URLから追加](claude.md)
-- [Codex・ChatGPTデスクトップ：公開マーケットプレイスを追加](personal.md)
+- [Claude（Web・Desktop）](claude.md)
+- [Codex・ChatGPT（デスクトップ）](personal.md)
 
 ChatGPT Webには、デスクトップで追加したローカルマーケットプレイスは引き継がれません。
 
