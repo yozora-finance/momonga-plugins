@@ -54,5 +54,3 @@
 | `/structure-reference` | 他社の開示資料の見出しや構成を参考にする | `/structure-reference トヨタ、ホンダ、日産の人的資本の開示構成` |
 
 会社名には証券コード、比較には対象年度も添えると伝わりやすくなります。
-
-[コマンドが出ないとき](troubleshooting.md)
