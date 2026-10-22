@@ -15,6 +15,17 @@
 
 **確認の限界：** このドキュメント作成では新規アカウントでの登録・OAuth初回許可・4アプリそれぞれでの検索完了までの通し試験は行っていません。Codex／ChatGPTのOAuthから検索結果までの実機確認は、リポジトリの既存READMEでも未完了とされています。手順の各末尾に、利用者が確認する完了条件を明記しています。
 
+## 個人向けデスクトップの追加画面
+
+2026年10月22日、ローカルのChatGPT.app 26.1013.40934（20770）の配布済み実装を読み取り確認しました。
+
+- `hosted-plugin-creation-actions`：追加メニューの「マーケットプレイスを追加」。
+- `add-marketplace-dialog`：Source、Git ref、Sparse pathsと追加ボタン。
+- `marketplace-add`：入力を `source`、`refName`、`sparsePaths` に変換して登録。
+- `plugins-cards-grid`：ローカルホストでplugins機能が有効ならメニューを提供。管理者役割による判定はなく、登録後はPersonalの対象マーケットプレイスへ遷移。
+
+これは実装の確認であり、画面操作・OAuth・検索の通し試験とは区別しています。Webのホスト向け処理にはこのローカル追加操作を渡していません。
+
 ## 公式情報
 
 - [Claude：プラグインの利用](https://support.claude.com/en/articles/13837440-use-plugins-in-claude)
