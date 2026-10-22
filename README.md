@@ -1,16 +1,14 @@
-# Momonga by Yozora Finance
+# モモンガサーチ
 
-Claude・Codex・ChatGPT向けのモモンガサーチ公式プラグインです。
-同じ検索Skillを共有し、分析コマンドの有無で選べます。
+法人向けのモモンガサーチ公式プラグインです。Claude・Codex・ChatGPTで利用できます。
+共通検索Skillと24種の分析コマンドを含む1種類を提供します。
 
 | プラグイン | ID | 同梱するSkills |
 |---|---|---|
-| モモンガサーチ | `momonga-search` | 共通検索Skill |
-| モモンガサーチ＋スキル | `momonga-search-skills` | 共通検索Skill＋24種の分析コマンド |
+| モモンガサーチ | `momonga-search-skills` | 共通検索Skill＋24種の分析コマンド |
 
-**どちらか一方をインストールしてください。** 両方とも同じモモンガMCPに接続します。
-共通Skill `momonga-search` は両方に同一内容で収録しています。
-サーバー側の利用権限は、ログインした本人・法人の契約に従います。
+法人のお試し・有料契約に基づいて利用します。個人向けリモートMCPは提供していません。
+サーバー側の利用権限は、所属法人の契約に従います。
 接続ごとのSkills追加許可は不要です。
 
 ## Codex
@@ -22,13 +20,7 @@ codex plugin marketplace add yozora-finance/momonga-plugins --ref main
 codex plugin add momonga-search-skills@momonga
 ```
 
-通常版を使う場合は、2行目を次に置き換えます。
-
-```sh
-codex plugin add momonga-search@momonga
-```
-
-CodexデスクトップではPlugins Directoryで `Momonga by Yozora Finance` を選び、
+CodexデスクトップではPlugins Directoryで `モモンガサーチ` を選び、
 インストールしたプラグインの接続設定からモモンガへのOAuthログインを完了します。
 カタログが表示されなければアプリを再起動してください。
 新規チャットでプラグインまたはSkillを選択し、例えば「トヨタ自動車（7203）の直近決算を出典付きで調べて」と依頼します。
@@ -44,9 +36,9 @@ codex plugin marketplace upgrade momonga
 ### デスクトップのWork / Codex
 
 上記のマーケットプレイスを登録した環境で、Plugins Directoryから
-`Momonga by Yozora Finance` を選び、どちらか一方をインストールします。
+`モモンガサーチ` を選び、「モモンガサーチ」をインストールします。
 モモンガへのOAuthログイン後、新規チャットでプラグインを選択します。
-共通検索Skillと、スキル付き版の分析SkillはClaude・Codexと同じファイルです。
+共通検索Skillと分析SkillはClaude・Codexと同じファイルです。
 
 ### Web版・公開ディレクトリ
 
@@ -70,8 +62,8 @@ Skillsも利用する場合は、プラグインを導入できる画面を使�
 
 1. 「カスタマイズ」→「プラグイン」→「プラグインを追加」→「マーケットプレイスを追加」を開きます。
 2. `https://github.com/yozora-finance/momonga-plugins` を登録します。
-3. どちらか一方をインストールし、モモンガへのログインを完了します。
-4. スキル付き版では新規チャットで `/` を入力し、`factsheet` などを選びます。
+3. 「モモンガサーチ」をインストールし、モモンガへのログインを完了します。
+4. 新規チャットで `/` を入力し、`factsheet` などを選びます。
 
 例：`/factsheet トヨタ自動車（7203）`
 
@@ -85,7 +77,6 @@ ZIPから導入した旧 `Momonga commands` はリポジトリ版へ自動移行
 /plugin install momonga-search-skills@momonga
 ```
 
-通常版は `/plugin install momonga-search@momonga` を使用します。
 ログインは `/mcp` から行います。
 分析コマンド例：`/momonga-search-skills:factsheet トヨタ自動車（7203）`。
 更新は `/plugin marketplace update momonga` から行います。
