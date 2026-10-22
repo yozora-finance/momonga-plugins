@@ -18,9 +18,9 @@ ChatGPT Webには、デスクトップで追加したローカルマーケット
 
 ### 会社のワークスペース
 
-- [管理者の初回設定：利用許可・配布・更新](administrators.md)
-- [社員向け：Claude（Web・Desktop）](claude.md)
-- [社員向け：Codex・ChatGPT（デスクトップ）](chatgpt.md)
+- [管理者向け：初回設定](administrators.md)
+- [利用者向け：Claude（Web・Desktop）](claude.md)
+- [利用者向け：Codex・ChatGPT（デスクトップ）](chatgpt.md)
 
 Claudeは会社の利用制限を確認したうえで、各社員が公開URLを追加します。Codex・ChatGPTは管理者が公開リポジトリを取り込み、社員が会社の一覧からインストールします。この取り込み方式では現在のパッケージは **Desktop only** になります。
 

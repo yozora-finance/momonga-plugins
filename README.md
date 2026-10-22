@@ -20,7 +20,7 @@ Claude・Codex・ChatGPT向けのモモンガサーチ公式プラグインで�
 - [個人向け：Codex・ChatGPTデスクトップへの追加](docs/personal.md)
 - [管理者の初回設定：配布・利用許可・更新](docs/administrators.md)
 - [Claude（Web・Desktop、個人・会社共通）](docs/claude.md)
-- [社員向け：Codex・ChatGPT（デスクトップ）](docs/chatgpt.md)
+- [利用者向け：Codex・ChatGPT（デスクトップ）](docs/chatgpt.md)
 - [24種のコマンド一覧](docs/commands.md)
 - [困ったとき](docs/troubleshooting.md)
 

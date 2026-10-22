@@ -1,4 +1,4 @@
-# 社員向け：Codex・ChatGPTの接続手順
+# 利用者向け：Codex・ChatGPTの接続手順
 
 [使い方のトップ](README.md)
 
