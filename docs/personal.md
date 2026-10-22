@@ -1,4 +1,4 @@
-# 個人アカウント向け：Codex・ChatGPTデスクトップへの追加
+# 個人アカウント向け：ChatGPT・Codexデスクトップへの追加
 
 [使い方のトップ](README.md)
 

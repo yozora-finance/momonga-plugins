@@ -12,14 +12,16 @@
 ### 個人アカウント
 
 - [Claude（Web・Desktop）](claude.md)
-- [Codex・ChatGPT（デスクトップ）](personal.md)
+- [ChatGPT・Codex（デスクトップ）](personal.md)
 
 ### 会社のワークスペース
 
 - [管理者向け：初回設定](administrators.md)
 - [利用者向け：Claude（Web・Desktop）](claude.md)
-- [利用者向け：Codex・ChatGPT（デスクトップ）](chatgpt.md)
+- [利用者向け：ChatGPT・Codex（デスクトップ）](chatgpt.md)
 
-[ログイン・認証について](authentication.md)
+## ログイン・使い方・トラブル対応
 
-[コマンド一覧](commands.md) ／ [困ったとき](troubleshooting.md)
+- [ログイン・認証について](authentication.md)：モモンガへのログインと、接続を許可する手順を確認できます。
+- [コマンド一覧](commands.md)：企業調査や比較など、目的に合った分析コマンドを探せます。
+- [困ったとき](troubleshooting.md)：接続できない、コマンドが表示されないなどの症状から対処方法を確認できます。

@@ -1,6 +1,6 @@
 # Momonga by Yozora Finance
 
-Claude・Codex・ChatGPT向けのモモンガサーチ公式プラグインです。
+Claude・ChatGPT・Codex向けのモモンガサーチ公式プラグインです。
 同じ検索Skillを共有し、分析コマンドの有無で選べます。
 
 | プラグイン | ID | 同梱するSkills |
@@ -17,10 +17,10 @@ Claude・Codex・ChatGPT向けのモモンガサーチ公式プラグインで�
 
 公開リポジトリを配布元として使います。個人で追加する場合と会社のワークスペースで配布する場合の手順を分けています。
 
-- [個人向け：Codex・ChatGPTデスクトップへの追加](docs/personal.md)
+- [個人向け：ChatGPT・Codexデスクトップへの追加](docs/personal.md)
 - [管理者の初回設定：配布・利用許可・更新](docs/administrators.md)
 - [Claude（Web・Desktop、個人・会社共通）](docs/claude.md)
-- [利用者向け：Codex・ChatGPT（デスクトップ）](docs/chatgpt.md)
+- [利用者向け：ChatGPT・Codex（デスクトップ）](docs/chatgpt.md)
 - [24種のコマンド一覧](docs/commands.md)
 - [困ったとき](docs/troubleshooting.md)
 
@@ -30,7 +30,7 @@ ChatGPTワークスペースにこのリポジトリを取り込む方式はDesk
 
 | ファイル | 用途 |
 |---|---|
-| `.agents/plugins/marketplace.json` | Codex・ChatGPT向けカタログ |
+| `.agents/plugins/marketplace.json` | ChatGPT・Codex向けカタログ |
 | `.claude-plugin/marketplace.json` | Claude向けカタログ |
 | 各プラグインの `plugin.json` / `mcp.json` | Agent Plugins形式のマニフェストとOpenAI向けOAuth設定 |
 | 各プラグインの `.claude-plugin/plugin.json` / `.mcp.json` | Claude向け設定 |
@@ -46,6 +46,6 @@ APIキー、client secret、アクセストークンは含みません。
 
 0.1.3ではClaudeのマニフェスト検証、Codex CLIでのカタログ登録・プラグインインストール、
 共通Skillの一致と同梱数（通常版1、スキル付き版25）を確認しています。
-Codex・ChatGPTでのOAuth完了から検索結果取得までの実機確認は未完了です。
+ChatGPT・CodexでのOAuth完了から検索結果取得までの実機確認は未完了です。
 
 形式の仕様：[OpenAIプラグインのパッケージング](https://developers.openai.com/plugins/build/plugins)。

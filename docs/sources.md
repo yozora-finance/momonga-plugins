@@ -13,7 +13,7 @@
 | 公開MCP認証メタデータ | `https://mcp.momongasearch.com/.well-known/oauth-protected-resource/mcp` が示す認証先 `https://auth.momongasearch.com` |
 | Claude Desktop の実画面 | マーケットプレイス追加フォーム、スキル付き版0.1.3、25 Skills、momongaの接続済み表示 |
 
-**確認の限界：** このドキュメント作成では新規アカウントでの登録・OAuth初回許可・4アプリそれぞれでの検索完了までの通し試験は行っていません。Codex／ChatGPTのOAuthから検索結果までの実機確認は、リポジトリの既存READMEでも未完了とされています。手順の各末尾に、利用者が確認する完了条件を明記しています。
+**確認の限界：** このドキュメント作成では新規アカウントでの登録・OAuth初回許可・4アプリそれぞれでの検索完了までの通し試験は行っていません。ChatGPT／CodexのOAuthから検索結果までの実機確認は、リポジトリの既存READMEでも未完了とされています。手順の各末尾に、利用者が確認する完了条件を明記しています。
 
 ## 個人向けデスクトップの追加画面
 
