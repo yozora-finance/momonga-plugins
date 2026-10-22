@@ -47,7 +47,7 @@ ChatGPTワークスペースの管理者アカウントで **Admin → Plugins �
 
 必要なアプリがある場合は、その利用権限も確認してください。リポジトリに書かれたインストール・認証ポリシーは、ワークスペースへの取り込みでは適用されません。管理画面で設定します。
 
-社員に [ChatGPT・Codexの接続手順](chatgpt.md) を案内し、デスクトップの **Plugins → ワークスペース名** にプラグインが表示されることを確認してください。管理者のGitHub連携で、社員のモモンガ認証まで済むわけではありません。
+社員に [ChatGPT・Codexの接続手順](chatgpt.md) を案内し、デスクトップの **Plugins → ワークスペース名** にプラグインが表示されることを確認してください。
 
 ### 利用できるアプリ
 
@@ -78,9 +78,5 @@ https://github.com/yozora-finance/momonga-plugins
 [Claudeの接続手順](claude.md)を案内してください。社員が **カスタマイズ → プラグイン → ＋追加 → マーケットプレイスを追加 → リポジトリから追加** で公開URLを登録し、案内されたプラグインを追加します。
 
 この公開リポジトリを使う手順では、社員ごとにマーケットプレイスを追加します。管理画面の組織向け **Sync from GitHub** は公開リポジトリを受け付けないため、使いません。
-
-### 更新の案内
-
-社員には、Claudeのマーケットプレイス管理画面で更新を確認してもらいます。プラグインの更新後は、新しいチャットで利用します。
 
 [Claude公式：公開リポジトリからの追加](https://support.claude.com/en/articles/13837440-use-plugins-in-claude) ／ [組織向け同期の対象](https://support.claude.com/en/articles/13837433-manage-plugins-for-your-organization)
