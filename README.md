@@ -15,12 +15,13 @@ Claude・Codex・ChatGPT向けのモモンガサーチ公式プラグインで�
 
 ## 接続・利用方法
 
-- [Claude（Web・Desktop共通）](docs/claude.md)
-- [Codex・ChatGPT（アプリ・Web）](docs/chatgpt.md)
+- [管理者の初回設定：配布・利用許可・更新](docs/administrators.md)
+- [社員向け：Claude（Web・Desktop）](docs/claude.md)
+- [社員向け：Codex・ChatGPT（デスクトップ）](docs/chatgpt.md)
 - [24種のコマンド一覧](docs/commands.md)
 - [困ったとき](docs/troubleshooting.md)
 
-組織で配布する方は[管理者向けの設定](docs/administrators.md)をご覧ください。
+ChatGPTワークスペースにこのリポジトリを取り込む方式はDesktop onlyです。ChatGPT Webへの配布は現在の手順に含みません。
 
 ## パッケージと認証
 

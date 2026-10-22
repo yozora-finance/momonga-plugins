@@ -18,6 +18,7 @@
 ## 公式情報
 
 - [Claude：プラグインの利用](https://support.claude.com/en/articles/13837440-use-plugins-in-claude)
+- [Claude：組織への配布・同期（github.comはprivate/internalのみ）](https://support.claude.com/en/articles/13837433-manage-plugins-for-your-organization)
 - [Claude：リモートMCPの接続と認証](https://support.claude.com/en/articles/11175166-get-started-with-custom-connectors-using-remote-mcp)
 - [OpenAI：Plugins](https://learn.chatgpt.com/docs/plugins)
 - [OpenAI：組織のプラグイン取り込み・Desktop onlyの制約](https://learn.chatgpt.com/docs/enterprise/plugin-management)
