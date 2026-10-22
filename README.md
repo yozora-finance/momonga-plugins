@@ -1,25 +1,23 @@
-# Momonga by Yozora Finance
+# モモンガサーチ
 
-Claude・ChatGPT・Codex向けのモモンガサーチ公式プラグインです。
-同じ検索Skillを共有し、分析コマンドの有無で選べます。
+法人向けのモモンガサーチ公式プラグインです。Claude・Codex・ChatGPTで利用できます。
+共通検索Skillと24種の分析コマンドを含む1種類を提供します。
 
 | プラグイン | ID | 同梱するSkills |
 |---|---|---|
-| モモンガサーチ | `momonga-search` | 共通検索Skill |
-| モモンガサーチ＋スキル | `momonga-search-skills` | 共通検索Skill＋24種の分析コマンド |
+| モモンガサーチ | `momonga-search-skills` | 共通検索Skill＋24種の分析コマンド |
 
-**どちらか一方をインストールしてください。** 両方とも同じモモンガMCPに接続します。
-共通Skill `momonga-search` は両方に同一内容で収録しています。
-サーバー側の利用権限は、ログインした本人・法人の契約に従います。
+法人のお試し・有料契約に基づいて利用します。個人向けリモートMCPは提供していません。
+サーバー側の利用権限は、所属法人の契約に従います。
 接続ごとのSkills追加許可は不要です。
 
 ## 接続・利用方法
 
-公開リポジトリを配布元として使います。個人で追加する場合と会社のワークスペースで配布する場合の手順を分けています。
+法人のお試し・有料契約の利用者向けの手順です。会社のワークスペースから導入する場合と、導入担当者の案内で各自追加する場合を説明しています。
 
-- [個人向け：ChatGPT・Codexデスクトップへの追加](docs/personal.md)
+- [法人利用者向け：ChatGPT・Codexへ直接追加](docs/direct-install.md)
 - [管理者の初回設定：配布・利用許可・更新](docs/administrators.md)
-- [Claude（Web・Desktop、個人・会社共通）](docs/claude.md)
+- [Claude（Web・Desktop）](docs/claude.md)
 - [利用者向け：ChatGPT・Codex（デスクトップ）](docs/chatgpt.md)
 - [24種のコマンド一覧](docs/commands.md)
 - [トラブルシューティング](docs/troubleshooting.md)
@@ -36,16 +34,16 @@ ChatGPTワークスペースにこのリポジトリを取り込む方式はDesk
 | 各プラグインの `.claude-plugin/plugin.json` / `.mcp.json` | Claude向け設定 |
 | 各プラグインの `skills/` | 全ホストで共有するSkills |
 
-OAuth設定には登録済みの公開client IDのみを含みます。
-OpenAIのクラウド接続にはChatGPT用クライアント、Claudeのローカル接続にはCLI用クライアントを使用します。
-ローカルCLI独自のOAuthフローを使う場合は、そのクライアントのコールバックに合う接続設定が必要です。
+OpenAI向けのOAuth設定には、登録済みのChatGPT用公開client IDのみを含みます。
+Claude向けの `.mcp.json` はMCP URLだけを含みます。Claude Chat・Desktop・Claude Codeは、
+それぞれClaudeが公開しているclient IDでログインします（Client ID Metadata Document）。
 APIキー、client secret、アクセストークンは含みません。
 分析手順の本体はサーバーから取得します。サーバー実装や利用者データは含みません。
 
 ## 検証範囲
 
-0.1.3ではClaudeのマニフェスト検証、Codex CLIでのカタログ登録・プラグインインストール、
-共通Skillの一致と同梱数（通常版1、スキル付き版25）を確認しています。
+0.1.6では両カタログの1本化、表示名、25 Skillsの同梱、Claudeマニフェストを検証しています。
+過去の接続画面・更新確認は[確認資料](docs/sources.md)に記録しています。
 ChatGPT・CodexでのOAuth完了から検索結果取得までの実機確認は未完了です。
 
 形式の仕様：[OpenAIプラグインのパッケージング](https://developers.openai.com/plugins/build/plugins)。

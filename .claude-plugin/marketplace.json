@@ -4,18 +4,13 @@
     "name": "Yozora Finance"
   },
   "metadata": {
-    "description": "Momonga by Yozora Finance"
+    "description": "モモンガサーチ"
   },
   "plugins": [
     {
-      "name": "momonga-search",
-      "source": "./plugins/momonga-search",
-      "description": "モモンガサーチ — 企業・開示資料・ニュースの検索と共通検索Skill。"
-    },
-    {
       "name": "momonga-search-skills",
       "source": "./plugins/momonga-search-skills",
-      "description": "モモンガサーチ＋スキル — 共通検索Skillと24種の分析コマンド。"
+      "description": "モモンガサーチ — 共通検索Skillと24種の分析コマンド。"
     }
   ]
 }

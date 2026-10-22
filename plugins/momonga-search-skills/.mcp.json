@@ -2,12 +2,7 @@
   "mcpServers": {
     "momonga": {
       "type": "http",
-      "url": "https://mcp.momongasearch.com/mcp",
-      "oauth": {
-        "clientId": "KCCnwSuCzRwkVumSRLfZXpximigelVdh",
-        "callbackPort": 18780,
-        "scopes": "openid offline_access momonga:read"
-      }
+      "url": "https://mcp.momongasearch.com/mcp"
     }
   }
 }
