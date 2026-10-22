@@ -2,7 +2,7 @@
 
 ## 用意するもの
 
-- ChatGPT または Claude のアカウント。Claude のプラグインは有料プラン（Pro・Max・Team・Enterprise）で使えます。ChatGPT はデスクトップ版のアプリが必要です。
+- Claude または ChatGPT のアカウント。Claude のプラグインは有料プラン（Pro・Max・Team・Enterprise）で使えます。ChatGPT はデスクトップ版のアプリが必要です。
 - モモンガサーチの利用アカウント。
 
 ## 接続方法
