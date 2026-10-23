@@ -31,17 +31,20 @@ ChatGPTワークスペースにこのリポジトリを取り込む方式はDesk
 | `.agents/plugins/marketplace.json` | ChatGPT・Codex向けカタログ |
 | `.claude-plugin/marketplace.json` | Claude向けカタログ |
 | 各プラグインの `.codex-plugin/plugin.json` | デスクトップ向けマニフェスト、MCP接続、OAuth設定 |
-| 各プラグインの `.claude-plugin/plugin.json` / `.mcp.json` | Claude向け設定 |
+| 各プラグインの `.claude-plugin/plugin.json` | Claude向けSkillsのみの設定 |
 | 各プラグインの `skills/` | 全ホストで共有するSkills |
 
 Codex向けのOAuth設定には、登録済みのCLI用公開client IDと固定の戻り先ポート18780を含みます。
 デスクトップアプリの「設定」→「MCPサーバー」から `momonga` の「認証／Authenticate」を押してください。
-Claude向けの `.mcp.json` はMCP URLだけを含みます。Claude Chat・Desktop・Claude Codeは、
-それぞれClaudeが公開しているclient IDでログインします（Client ID Metadata Document）。
+ClaudeはChat側でコネクタを登録・認証し、同じアカウント・組織のDesktop Codeがその接続を共用します。
+Claude向けプラグインは24種のSkillsだけを含みます。設定は[Claudeの手順](docs/claude.md)を参照してください。
 APIキー、client secret、アクセストークンは含みません。
 分析手順の本体はサーバーから取得します。サーバー実装や利用者データは含みません。
 
 ## 検証範囲
+
+0.2.2のClaude構成は、個人ProとTeamそれぞれのChat・Desktop Codeでファクトシートの実行と表示を確認しています（Desktop 3.6556.2、Code 2.1.308）。CodeのMomonga呼び出しは共有コネクタ1経路でした。個人Codeではプラグインのオフ→オンと新規セッション開始が必要でした。24コマンドすべての検証ではありません。
+
 
 0.1.8では、現在のデスクトップアプリが対応するCodex形式に変更しています。
 アプリ内蔵版0.163.0-alpha.10.2でMCPサーバー1件・25 Skillsの認識と、
