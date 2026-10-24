@@ -8,7 +8,7 @@
 
 | 利用先 | 管理者が行うこと | 社員が行うこと |
 |---|---|---|
-| Claude | 公開マーケットプレイスの利用を許可し、接続手順を案内 | 公開URLから追加して認証 |
+| Claude | 公開マーケットプレイスの利用を許可し、組織にコネクタを追加して接続手順を案内 | 公開URLから追加して認証 |
 | ChatGPT・Codex | 公開リポジトリを取り込み、社員に配布 | 会社の一覧からインストールして認証 |
 
 ## 案内するプラグイン
@@ -64,9 +64,11 @@ ChatGPTワークスペースの管理者アカウントで **Admin → Plugins �
 https://github.com/yozora-finance/momonga-plugins
 ```
 
-### 2. Chatに共通コネクタを追加する
+### 2. 組織にコネクタを追加する
 
-管理者がChatの「カスタマイズ」→「コネクタ」から、名前「モモンガサーチ」、URL `https://mcp.momongasearch.com/mcp` のカスタムコネクタを登録します。同じ接続先が登録済みの場合は、その接続を使います。各社員は自分のアカウントで「連携させる」を押して認証します。Codeでも同じ組織の接続が使われます。
+オーナーが「組織設定（Organization settings）」→「コネクタ」→「追加」→「カスタム」を開きます。種類を聞かれたら「Web」を選び、名前に「モモンガサーチ」、MCPサーバーURLに `https://mcp.momongasearch.com/mcp` を入力します。認証は「今すぐサインイン」と「Claudeの公開アイデンティティを使用」を選び、「追加」を押します。同じ接続先が登録済みの場合は、その接続を使います。
+
+登録したコネクタは、社員の「カスタマイズ」→「コネクタ」に「カスタム」の表示で並びます。各社員は自分のアカウントで「連携させる」を押して認証します。Codeでも同じ組織の接続が使われます。
 
 ### 3. 社員に接続手順を案内する
 
@@ -74,4 +76,4 @@ https://github.com/yozora-finance/momonga-plugins
 
 組織向けの **Sync from GitHub** には公開リポジトリを登録できないため、マーケットプレイスは社員が各自で追加します。
 
-[Claude公式：公開リポジトリからの追加](https://support.claude.com/en/articles/13837440-use-plugins-in-claude) ／ [組織向け同期の対象](https://support.claude.com/en/articles/13837433-manage-plugins-for-your-organization)
+[Claude公式：公開リポジトリからの追加](https://support.claude.com/en/articles/13837440-use-plugins-in-claude) ／ [組織へのコネクタ追加](https://claude.com/docs/connectors/custom/add-unlisted) ／ [組織向け同期の対象](https://support.claude.com/en/articles/13837433-manage-plugins-for-your-organization)

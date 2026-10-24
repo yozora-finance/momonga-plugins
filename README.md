@@ -21,5 +21,3 @@
 
 - [コマンド一覧](docs/commands.md)
 - [困ったとき](docs/troubleshooting.md)
-
-リポジトリの構成や検証の記録は [保守の記録](docs/maintenance.md) を確認してください。
