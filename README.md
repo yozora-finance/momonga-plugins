@@ -11,7 +11,7 @@
 | Claude（Chat、Code） | Web、デスクトップアプリ | [Claudeでの導入手順](docs/claude.md) |
 | ChatGPT、Codex | デスクトップアプリ | [ChatGPT・Codexでの導入手順](docs/chatgpt.md) |
 
-会社全体に配布する管理者の方は、先に[管理者向けの設定](docs/administrators.md)をお済ませください。
+会社全体に配布する管理者の方は、先に[管理者の初回設定](docs/administrators.md)をお済ませください。
 
 ## 導入の前に
 
