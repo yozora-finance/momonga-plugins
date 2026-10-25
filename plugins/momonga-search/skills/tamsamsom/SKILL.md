@@ -6,4 +6,4 @@ disable-model-invocation: true
 
 モモンガの `start_command` を `tamsamsom` で呼び出し、返された手順に従う。
 
-配布リビジョン: `skills-20261025-01`
+配布リビジョン: `skills-20261025-02`
