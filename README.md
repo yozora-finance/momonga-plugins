@@ -1,23 +1,26 @@
 # モモンガサーチ
 
-モモンガサーチの公式プラグインです。Claude・ChatGPT・Codexに、企業調査や企業比較を行うための分析コマンド24種を追加します。
-
-## 用意するもの
-
-- 法人のお試し契約または有料契約に紐づく、モモンガサーチの利用アカウント
-- Claudeの有料プラン（Pro・Max・Team・Enterprise）、またはChatGPT・Codexのデスクトップアプリ
+モモンガサーチの公式プラグインです。
 
 ## 導入手順
 
-利用する環境の手順を開いて進めてください。会社で配布する場合は、管理者が先に初回設定を行います。
+お使いのサービスの手順をご覧ください。
 
-| 対象 | 手順 |
-|---|---|
-| Claude（Web・デスクトップアプリ） | [Claudeでの導入手順](docs/claude.md) |
-| ChatGPT・Codex（デスクトップアプリ） | [ChatGPT・Codexでの導入手順](docs/chatgpt.md) |
-| 会社で配布する管理者 | [管理者の初回設定](docs/administrators.md) |
+| サービス | 使える場所 | 手順 |
+|---|---|---|
+| Claude（Chat、Code） | Web、デスクトップアプリ | [Claudeでの導入手順](docs/claude.md) |
+| ChatGPT、Codex | デスクトップアプリ | [ChatGPT・Codexでの導入手順](docs/chatgpt.md) |
 
-## 使い方・困ったとき
+会社全体に配布する管理者の方は、先に[管理者向けの設定](docs/administrators.md)をお済ませください。
 
-- [コマンド一覧](docs/commands.md)
-- [困ったとき](docs/troubleshooting.md)
+## 導入の前に
+
+- モモンガサーチの利用アカウント（法人のお試し契約または有料契約）が必要です。
+- Claudeでご利用になるには、有料プラン（Pro、Max、Team、Enterprise）が必要です。
+
+各サービスの利用条件は、サービス側の仕様で決まり、変更されることがあります。
+最新の条件は、[Claude](https://support.claude.com/en/articles/13837440-use-plugins-in-claude)と[ChatGPT](https://learn.chatgpt.com/docs/plugins)の公式ページでご確認ください。
+
+## 導入したあとに
+
+[コマンド一覧](docs/commands.md) ／ [困ったとき](docs/troubleshooting.md)
