@@ -1,6 +1,6 @@
 {
-  "revision": 3,
-  "version": "0.2.12",
+  "revision": 4,
+  "version": "0.2.13",
   "repository": "https://github.com/yozora-finance/momonga-plugins",
   "sourceRoot": "plugins/codex/momonga-search",
   "commands": {
