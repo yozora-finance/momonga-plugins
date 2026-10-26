@@ -8,7 +8,7 @@
       "name": "momonga-search",
       "source": {
         "source": "local",
-        "path": "./plugins/momonga-search"
+        "path": "./plugins/codex/momonga-search"
       },
       "policy": {
         "installation": "AVAILABLE",
