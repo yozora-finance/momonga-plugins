@@ -1,4 +1,4 @@
-# Claude and Codex read separate manifests of the same plugin; a release must raise both to one version.
+# Resolve each client's source from its marketplace; both manifests must share a release version.
 name: manifest-versions
 on:
   pull_request:
@@ -9,14 +9,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: |
-          status=0
-          for plugin in plugins/*/; do
-            claude=$(jq -r .version "$plugin.claude-plugin/plugin.json")
-            codex=$(jq -r .version "$plugin.codex-plugin/plugin.json")
-            if [ "$claude" != "$codex" ]; then
-              echo "::error file=$plugin.codex-plugin/plugin.json::$plugin: Claude $claude, Codex $codex"
-              status=1
-            fi
-          done
-          exit $status
+      - run: python3 .github/check-manifests.py
