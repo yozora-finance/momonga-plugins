@@ -119,9 +119,11 @@ async function refresh({ binary, required, command }, { home, scriptRoot }) {
 module.exports = { refresh };
 
 if (require.main === module) {
-  const home = fs.realpathSync(process.env.CODEX_HOME || path.join(os.homedir(), '.codex'));
   Promise.resolve()
-    .then(() => refresh(parseArgs(process.argv.slice(2)), { home, scriptRoot: fs.realpathSync(path.resolve(__dirname, '..')) }))
+    .then(() => refresh(parseArgs(process.argv.slice(2)), {
+      home: fs.realpathSync(process.env.CODEX_HOME || path.join(os.homedir(), '.codex')),
+      scriptRoot: fs.realpathSync(path.resolve(__dirname, '..')),
+    }))
     .then(result => process.stdout.write(JSON.stringify(result) + '\n'))
     .catch(error => { process.stderr.write('Momonga update failed: ' + error.message + '\n'); process.exitCode = 1; });
 }
