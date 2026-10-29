@@ -69,7 +69,7 @@ class GeneratedSkillsTest(unittest.TestCase):
             for host in ('plugins/codex/momonga-search', 'plugins/chatgpt/momonga-search-chatgpt'):
                 self.assertTrue((root / host / relative).read_text().startswith(shared.read_text()))
 
-    def test_a_platform_rewrite_of_the_shared_inputs_keeps_the_helper_and_every_host_check(self):
+    def test_generation_preserves_files_that_are_no_longer_in_the_command_index(self):
         with tempfile.TemporaryDirectory() as directory:
             root = copy_repository(directory)
             # The platform replaces the shared skills and the command index; here it renames one skill.
@@ -81,17 +81,10 @@ class GeneratedSkillsTest(unittest.TestCase):
             (skills / old).rename(skills / commands['comps'])
             (skills / old).parent.rmdir()
             (root / 'plugins/commands.json').write_text(json.dumps(commands, ensure_ascii=False, indent=2) + '\n')
-            generate['main'](check=False, root=root)
-            generate['main'](check=True, root=root)
-            codex = root / 'plugins/codex/momonga-search'
-            self.assertEqual(json.loads((codex / 'release.json').read_text())['commands'], commands)
-            self.assertTrue((codex / 'scripts/refresh.sh').is_file() and (codex / 'scripts/refresh.cjs').is_file())
-            for host, marker in (('plugins/codex/momonga-search', '../../scripts/refresh.sh'), ('plugins/chatgpt/momonga-search-chatgpt', 'Refresh')):
-                self.assertFalse((root / host / old).exists())
-                for command, relative in commands.items():
-                    body = (root / host / relative).read_text()
-                    self.assertTrue(body.startswith((skills / relative).read_text()), (host, command))
-                    self.assertIn(marker, body)
+            with self.assertRaisesRegex(ValueError, 'Unexpected files'):
+                generate['main'](check=False, root=root)
+            for host in ('plugins/codex/momonga-search', 'plugins/chatgpt/momonga-search-chatgpt'):
+                self.assertTrue((root / host / old).is_file())
 
     def test_shared_skills_must_match_the_command_index(self):
         with tempfile.TemporaryDirectory() as directory:

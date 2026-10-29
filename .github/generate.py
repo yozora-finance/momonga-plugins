@@ -86,13 +86,14 @@ def main(check, root=ROOT):
     owned = {root / name for name in files}
     extra = [str(path.relative_to(root)) for base in (CHATGPT, f'{CODEX}/skills')
              for path in (root / base).rglob('*') if path.is_file() and path not in owned]
+    if extra:
+        raise ValueError('Unexpected files in generated directories; review them before generating: '
+                         + ', '.join(extra))
     if check:
-        if stale or extra:
+        if stale:
             raise ValueError('Generated host files are out of date; run python3 .github/generate.py: '
-                             + ', '.join(stale + extra))
+                             + ', '.join(stale))
         return
-    for name in extra:
-        (root / name).unlink()
     for name in stale:
         (root / name).parent.mkdir(parents=True, exist_ok=True)
         (root / name).write_text(files[name])
