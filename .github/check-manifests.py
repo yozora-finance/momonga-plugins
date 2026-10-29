@@ -25,11 +25,19 @@ for name, source in codex.items():
     if type(release["revision"]) is not int or release["revision"] < 1:
         raise ValueError(f"{name}: positive integer skill revision required")
     print(f"{name}: version {x['version']}, skill revision {release['revision']}")
-    if x['apps'] != './.app.json' or x['skills'] != './skills/':
-        raise ValueError(f'{name}: shared OpenAI app and skills paths required')
-    apps = read(f'{source}/.app.json')['apps']
-    if len(apps) != 1 or not next(iter(apps.values()))['id'].startswith('asdk_app_'):
-        raise ValueError(f'{name}: one registered ChatGPT app required')
+    if x['mcpServers'] != './.mcp.json' or x['skills'] != './skills/':
+        raise ValueError(f'{name}: bundled MCP and skills paths required')
+    server = read(f'{source}/.mcp.json')['mcpServers']['momonga']
+    if server['type'] != 'http' or server['url'] != 'https://mcp.momongasearch.com/mcp':
+        raise ValueError(f'{name}: production HTTP MCP endpoint required')
+    if set(server['scopes']) != {'openid', 'offline_access', 'momonga:read'}:
+        raise ValueError(f'{name}: explicit read and refresh scopes required')
+    if server['oauth'] != {
+        'clientId': 'KCCnwSuCzRwkVumSRLfZXpximigelVdh',
+        'callbackPort': 18780,
+        'callbackUrl': 'http://127.0.0.1:18780/callback',
+    }:
+        raise ValueError(f'{name}: registered public desktop OAuth settings required')
     for command, relative in release['commands'].items():
         shared = (root / claude[name] / relative).read_text()
         if (root / source / relative).read_text() != shared:

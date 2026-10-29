@@ -1,13 +1,13 @@
 {
   "name": "momonga-search",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "24種の分析コマンド。",
   "author": {
     "name": "Yozora Finance"
   },
   "repository": "https://github.com/yozora-finance/momonga-plugins",
   "skills": "./skills/",
-  "apps": "./.app.json",
+  "mcpServers": "./.mcp.json",
   "interface": {
     "displayName": "モモンガサーチ",
     "shortDescription": "24種の分析コマンド。",
