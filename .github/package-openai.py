@@ -19,6 +19,7 @@ def package(root, output):
     if output.resolve().is_relative_to(source):
         raise ValueError('Output must be outside the generated plugin')
     paths = [source / '.codex-plugin/plugin.json', source / '.mcp.json', source / 'release.json']
+    paths += sorted((source / 'scripts').iterdir())
     skills = sorted((source / 'skills').glob('*/SKILL.md'))
     if len(skills) != 24:
         raise ValueError('Expected 24 command skills')

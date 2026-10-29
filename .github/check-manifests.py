@@ -1,6 +1,7 @@
 """Validate client manifests using their generated marketplace source mappings."""
 import json
 from pathlib import Path
+import runpy
 
 root = Path(__file__).resolve().parent.parent
 
@@ -38,7 +39,12 @@ for name, source in codex.items():
         'callbackUrl': 'http://127.0.0.1:18780/callback',
     }:
         raise ValueError(f'{name}: registered public desktop OAuth settings required')
-    for command, relative in release['commands'].items():
-        shared = (root / claude[name] / relative).read_text()
-        if (root / source / relative).read_text() != shared:
-            raise ValueError(f'{name}/{command}: both packages must use the shared skill')
+
+# Codex and ChatGPT skills are generated from the shared Claude skills.
+runpy.run_path(str(root / '.github/generate.py'))['main'](check=True)
+# Every user registers their own connection; no account-specific app or connector ID is distributed.
+for path in [p for base in ('plugins', '.agents', '.claude-plugin') for p in (root / base).rglob('*')]:
+    if not path.is_file():
+        continue
+    if path.name == '.app.json' or any(marker in path.read_bytes() for marker in (b'asdk_app', b'connector_', b'templated_apps_')):
+        raise ValueError(f'{path.relative_to(root)}: account-specific app references must not be distributed')
