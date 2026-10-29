@@ -1,7 +1,6 @@
 """Validate client manifests using their generated marketplace source mappings."""
 import json
 from pathlib import Path
-import runpy
 
 root = Path(__file__).resolve().parent.parent
 
@@ -40,8 +39,6 @@ for name, source in codex.items():
     }:
         raise ValueError(f'{name}: registered public desktop OAuth settings required')
 
-# Codex and ChatGPT skills are generated from the shared Claude skills.
-runpy.run_path(str(root / '.github/generate.py'))['main'](check=True)
 # Every user registers their own connection; no account-specific app or connector ID is distributed.
 for path in [p for base in ('plugins', '.agents', '.claude-plugin') for p in (root / base).rglob('*')]:
     if not path.is_file():

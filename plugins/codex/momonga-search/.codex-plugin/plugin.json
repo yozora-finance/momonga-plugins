@@ -7,7 +7,6 @@
   },
   "repository": "https://github.com/yozora-finance/momonga-plugins",
   "skills": "./skills/",
-  "mcpServers": "./.mcp.json",
   "interface": {
     "displayName": "モモンガサーチ",
     "shortDescription": "24種の分析コマンド。",
@@ -19,5 +18,6 @@
     "defaultPrompt": [
       "トヨタ自動車（7203）の直近の決算を出典付きで調べて"
     ]
-  }
+  },
+  "mcpServers": "./.mcp.json"
 }
