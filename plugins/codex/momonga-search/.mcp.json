@@ -1,0 +1,18 @@
+{
+  "mcpServers": {
+    "momonga": {
+      "type": "http",
+      "url": "https://mcp.momongasearch.com/mcp",
+      "scopes": [
+        "openid",
+        "offline_access",
+        "momonga:read"
+      ],
+      "oauth": {
+        "clientId": "KCCnwSuCzRwkVumSRLfZXpximigelVdh",
+        "callbackPort": 18780,
+        "callbackUrl": "http://127.0.0.1:18780/callback"
+      }
+    }
+  }
+}
