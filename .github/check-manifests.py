@@ -39,6 +39,18 @@ for name, source in codex.items():
     }:
         raise ValueError(f'{name}: registered public desktop OAuth settings required')
 
+# Each Codex command retains its shared skill content and a matching release mapping.
+for name, source in codex.items():
+    release = read(f"{source}/release.json")
+    for command, relative in release['commands'].items():
+        shared = root / claude[name] / relative
+        generated = root / source / relative
+        if not shared.is_file() or not generated.is_file() or not generated.read_bytes().startswith(shared.read_bytes()):
+            raise ValueError(f'{name}: inconsistent shared skill for {command}')
+    scripts = root / source / 'scripts'
+    if {p.name for p in scripts.iterdir()} != {'refresh.sh', 'refresh.cjs'}:
+        raise ValueError(f'{name}: unexpected update helper files')
+
 # Every user registers their own connection; no account-specific app or connector ID is distributed.
 for path in [p for base in ('plugins', '.agents', '.claude-plugin') for p in (root / base).rglob('*')]:
     if not path.is_file():

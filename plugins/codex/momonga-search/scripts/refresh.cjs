@@ -169,6 +169,8 @@ async function refresh({ binary, required, command }, { home, scriptRoot, budget
 
   const source = path.join(market.root, release.sourceRoot);
   const latest = JSON.parse(fs.readFileSync(path.join(source, 'release.json'), 'utf8'));
+  if (latest.repository !== release.repository || latest.sourceRoot !== release.sourceRoot)
+    throw new Error('The fetched release metadata does not match the installed plugin');
   const { ref, commit } = snapshot(market.root);
   const at = `${ref} @ ${commit.slice(0, 12)}`;
   if (!Number.isSafeInteger(latest.revision) || latest.revision < required)

@@ -65,13 +65,17 @@ function release(dir, version, revision) {
 }
 
 // An installed 1.0.0 (revision 1) plugin whose GitHub repository now publishes `published`.
-function setup({ published, installs = true, source = RELEASE.repository + '.git', hang = false }) {
+function setup({ published, installs = true, source = RELEASE.repository + '.git', hang = false, changedRepository = false }) {
   const base = fs.mkdtempSync(path.join(os.tmpdir(), 'momonga-refresh-'));
   const home = path.join(base, 'home');
   const installed = path.join(home, 'plugins/cache/momonga/momonga-search/1.0.0');
   release(path.join(base, 'installed'), '1.0.0', 1);
   fs.cpSync(path.join(base, 'installed', SOURCE_ROOT), installed, { recursive: true });
   release(path.join(base, 'published'), published.version, published.revision);
+  if (changedRepository) {
+    const file = path.join(base, 'published', SOURCE_ROOT, 'release.json');
+    fs.writeFileSync(file, JSON.stringify({ ...JSON.parse(fs.readFileSync(file, 'utf8')), repository: 'https://example.invalid/fork' }));
+  }
   const spec = { root: path.join(home, '.tmp/marketplaces/momonga'), published: path.join(base, 'published'), installs, source,
     hang, pids: path.join(base, 'pids.json') };
   fs.writeFileSync(path.join(base, 'spec.json'), JSON.stringify(spec));
@@ -105,6 +109,11 @@ test('updates from GitHub and returns the newly active skill of the requested co
 test('fails when GitHub does not yet publish the required revision', async () => {
   const { run } = setup({ published: { version: '1.0.1', revision: 1 } });
   await assert.rejects(run(2, 'comps'), /GitHub \(main @ 0123456789ab\) has skill revision 1, older than the required 2/);
+});
+
+test('rejects a fetched release whose repository metadata does not match the installed plugin', async () => {
+  const { run } = setup({ published: { version: '1.1.0', revision: 2 }, changedRepository: true });
+  await assert.rejects(run(2, 'comps'), /release metadata does not match/);
 });
 
 test('fails when the fetched release is not reflected in the installed plugin', async () => {
