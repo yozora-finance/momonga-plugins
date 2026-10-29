@@ -11,3 +11,4 @@ jobs:
       - uses: actions/checkout@v4
       - run: python3 .github/check-manifests.py
       - run: python3 .github/test-package.py
+      - run: node --test .github/test-refresh.cjs
