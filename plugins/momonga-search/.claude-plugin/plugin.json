@@ -1,7 +1,7 @@
 {
   "name": "momonga-search",
   "displayName": "モモンガサーチ",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "24種の分析コマンド。",
   "author": {
     "name": "Yozora Finance"

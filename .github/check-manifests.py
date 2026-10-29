@@ -38,7 +38,22 @@ for name, source in codex.items():
         'callbackUrl': 'http://127.0.0.1:18780/callback',
     }:
         raise ValueError(f'{name}: registered public desktop OAuth settings required')
+
+# Each Codex command retains its shared skill content and a matching release mapping.
+for name, source in codex.items():
+    release = read(f"{source}/release.json")
     for command, relative in release['commands'].items():
-        shared = (root / claude[name] / relative).read_text()
-        if (root / source / relative).read_text() != shared:
-            raise ValueError(f'{name}/{command}: both packages must use the shared skill')
+        shared = root / claude[name] / relative
+        generated = root / source / relative
+        if not shared.is_file() or not generated.is_file() or not generated.read_bytes().startswith(shared.read_bytes()):
+            raise ValueError(f'{name}: inconsistent shared skill for {command}')
+    scripts = root / source / 'scripts'
+    if {p.name for p in scripts.iterdir()} != {'refresh.sh', 'refresh.cjs'}:
+        raise ValueError(f'{name}: unexpected update helper files')
+
+# Every user registers their own connection; no account-specific app or connector ID is distributed.
+for path in [p for base in ('plugins', '.agents', '.claude-plugin') for p in (root / base).rglob('*')]:
+    if not path.is_file():
+        continue
+    if path.name == '.app.json' or any(marker in path.read_bytes() for marker in (b'asdk_app', b'connector_', b'templated_apps_')):
+        raise ValueError(f'{path.relative_to(root)}: account-specific app references must not be distributed')
