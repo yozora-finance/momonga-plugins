@@ -164,6 +164,6 @@ test('rejects a command the release does not define', async () => {
 });
 
 test('the command line reports an unknown command as a failure', () => {
-  assert.throws(() => execFileSync(process.execPath, [HELPER, 'codex', 'unknown'], { stdio: 'pipe' }),
+  assert.throws(() => execFileSync(process.execPath, [HELPER, 'codex', 'unknown'], { stdio: 'pipe', env: { ...process.env, CODEX_HOME: ROOT } }),
     error => error.status === 1 && /known command ID/.test(error.stderr.toString()));
 });
