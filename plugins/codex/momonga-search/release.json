@@ -1,6 +1,6 @@
 {
   "revision": 8,
-  "version": "0.3.4",
+  "version": "0.3.5",
   "revisionUrl": "https://mcp.momongasearch.com/skill-revision.json",
   "repository": "https://github.com/yozora-finance/momonga-plugins",
   "sourceRoot": "plugins/codex/momonga-search",
