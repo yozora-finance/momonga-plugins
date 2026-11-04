@@ -198,7 +198,7 @@ async function check([binary, command, ...extra], options) {
   if (release.revision >= required) return { status: 'ready' };
   const teamCache = path.join(home, 'plugins/cache/workspace-directory/momonga-search');
   if (path.dirname(scriptRoot) === teamCache)
-    throw new Error('会社配布のスキルに更新が必要です。ワークスペース管理者に新版の配布状況を確認し、反映後に新しいチャットで再実行してください。');
+    throw new Error('会社配布のスキルに更新が必要です。会社の自動同期後、新しいチャットで再実行してください。お急ぎの場合はワークスペース管理者に同期を依頼してください。');
   const updated = await refresh({ binary, required, command }, options);
   return { status: 'updated', skill_path: updated.skill_path };
 }
