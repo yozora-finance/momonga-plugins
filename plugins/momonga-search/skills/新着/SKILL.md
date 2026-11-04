@@ -5,3 +5,5 @@ disable-model-invocation: true
 ---
 
 モモンガの `start_command` を `news-feed` で呼び出し、返された手順に従う。
+
+配布版番号: 0.3.4

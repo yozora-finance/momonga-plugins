@@ -189,6 +189,8 @@ async function check([binary, command, ...extra], options) {
   const { home, scriptRoot } = options;
   const release = JSON.parse(fs.readFileSync(path.join(scriptRoot, 'release.json'), 'utf8'));
   if (!binary || extra.length || !Object.hasOwn(release.commands, command)) throw new Error('Expected a known command ID');
+  const teamCache = path.join(home, 'plugins/cache/workspace-directory/momonga-search');
+  if (path.dirname(scriptRoot) === teamCache) return { status: 'workspace_managed' };
   const validRevision = value => Number.isSafeInteger(value) && value > 0;
   if (!validRevision(release.revision)) throw new Error('Invalid installed skill revision');
   const response = await fetch(release.revisionUrl, { signal: AbortSignal.timeout(10000), redirect: 'error' });
@@ -196,9 +198,6 @@ async function check([binary, command, ...extra], options) {
   const { required_skill_revision: required } = await response.json();
   if (!validRevision(required)) throw new Error('Invalid required skill revision');
   if (release.revision >= required) return { status: 'ready' };
-  const teamCache = path.join(home, 'plugins/cache/workspace-directory/momonga-search');
-  if (path.dirname(scriptRoot) === teamCache)
-    throw new Error('会社配布のスキルに更新が必要です。会社の自動同期後、新しいチャットで再実行してください。お急ぎの場合はワークスペース管理者に同期を依頼してください。');
   const updated = await refresh({ binary, required, command }, options);
   return { status: 'updated', skill_path: updated.skill_path };
 }
