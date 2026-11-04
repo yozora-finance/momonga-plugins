@@ -45,8 +45,10 @@ for name, source in codex.items():
     for command, relative in release['commands'].items():
         shared = root / claude[name] / relative
         generated = root / source / relative
-        if not shared.is_file() or not generated.is_file() or not generated.read_bytes().startswith(shared.read_bytes()):
+        if shared.read_text().split('---\n', 2)[:2] != generated.read_text().split('---\n', 2)[:2]:
             raise ValueError(f'{name}: inconsistent shared skill for {command}')
+        if f"command=`{command}`" not in generated.read_text() or f"`{command}`" not in shared.read_text():
+            raise ValueError(f'{name}: incorrect command mapping for {command}')
     scripts = root / source / 'scripts'
     if {p.name for p in scripts.iterdir()} != {'refresh.sh', 'refresh.cjs'}:
         raise ValueError(f'{name}: unexpected update helper files')

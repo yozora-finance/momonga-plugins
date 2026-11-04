@@ -65,12 +65,16 @@ function release(dir, version, revision) {
 }
 
 // An installed 1.0.0 (revision 1) plugin whose GitHub repository now publishes `published`.
-function setup({ published, installs = true, source = RELEASE.repository + '.git', hang = false, changedRepository = false }) {
+function setup({ published, installs = true, source = RELEASE.repository + '.git', hang = false, changedRepository = false, revisionUrl }) {
   const base = fs.mkdtempSync(path.join(os.tmpdir(), 'momonga-refresh-'));
   const home = path.join(base, 'home');
   const installed = path.join(home, 'plugins/cache/momonga/momonga-search/1.0.0');
   release(path.join(base, 'installed'), '1.0.0', 1);
   fs.cpSync(path.join(base, 'installed', SOURCE_ROOT), installed, { recursive: true });
+  if (revisionUrl) {
+    const metadata = path.join(installed, 'release.json');
+    fs.writeFileSync(metadata, JSON.stringify({ ...JSON.parse(fs.readFileSync(metadata)), revisionUrl }));
+  }
   release(path.join(base, 'published'), published.version, published.revision);
   if (changedRepository) {
     const file = path.join(base, 'published', SOURCE_ROOT, 'release.json');
@@ -91,7 +95,7 @@ function setup({ published, installs = true, source = RELEASE.repository + '.git
     // PIDs of the hung child and its grandchild, once both are running.
     pids: () => fs.existsSync(spec.pids) ? JSON.parse(fs.readFileSync(spec.pids, 'utf8')) : null,
     // The helper as the skill runs it: a separate process from the installed cache.
-    spawnHelper: (required, command) => spawn(process.execPath, [path.join(installed, 'scripts/refresh.cjs'), path.join(base, 'codex'), String(required), command],
+    spawnHelper: command => spawn(process.execPath, [path.join(installed, 'scripts/refresh.cjs'), path.join(base, 'codex'), command],
       { env, stdio: ['ignore', 'pipe', 'pipe'] }),
     run: (required, command, budget) => refresh({ binary: path.join(base, 'codex'), required, command },
       { home: fs.realpathSync(home), scriptRoot: fs.realpathSync(installed), budget }),
@@ -138,11 +142,16 @@ for (const stage of ['upgrade', 'app-server']) {
   });
 }
 
-test('interrupting the helper stops the update it started and reports failure', async () => {
-  const { spawnHelper, pids } = setup({ published: { version: '1.1.0', revision: 2 }, hang: 'upgrade' });
-  const helper = spawnHelper(2, 'comps');
+test('interrupting the helper stops the update it started and reports failure', { timeout: 10000 }, async t => {
+  const server = require('node:http').createServer((_req, res) => res.end(JSON.stringify({ required_skill_revision: 2 })));
+  await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
+  t.after(() => server.close());
+  const revisionUrl = `http://127.0.0.1:${server.address().port}/skill-revision.json`;
+  const { spawnHelper, pids } = setup({ published: { version: '1.1.0', revision: 2 }, hang: 'upgrade', revisionUrl });
+  const helper = spawnHelper('comps');
   const exited = new Promise(resolve => helper.once('exit', resolve));
-  while (!pids()) await new Promise(resolve => setTimeout(resolve, 50));
+  for (let i = 0; i < 100 && !pids() && helper.exitCode === null; i++) await new Promise(resolve => setTimeout(resolve, 50));
+  assert.ok(pids(), 'upgrade started');
   helper.kill('SIGTERM');
   assert.notStrictEqual(await exited, 0);
   await new Promise(resolve => setTimeout(resolve, 200));
@@ -154,7 +163,7 @@ test('rejects a command the release does not define', async () => {
   await assert.rejects(run(2, 'unknown'), /Unknown command/);
 });
 
-test('the command line reports a malformed required revision as a failure', () => {
-  assert.throws(() => execFileSync(process.execPath, [HELPER, 'codex', '0', 'comps'], { stdio: 'pipe' }),
-    error => error.status === 1 && /positive required revision/.test(error.stderr.toString()));
+test('the command line reports an unknown command as a failure', () => {
+  assert.throws(() => execFileSync(process.execPath, [HELPER, 'codex', 'unknown'], { stdio: 'pipe' }),
+    error => error.status === 1 && /known command ID/.test(error.stderr.toString()));
 });

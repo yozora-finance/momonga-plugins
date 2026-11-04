@@ -1,6 +1,6 @@
 // Updates this plugin from its GitHub marketplace and proves the runtime sees the required skill.
 // Standalone: the update replaces the versioned cache directory containing this file.
-// Usage: node refresh.cjs CODEX_BINARY REQUIRED_REVISION COMMAND_ID
+// Usage: node refresh.cjs CODEX_BINARY COMMAND_ID
 const fs = require('node:fs');
 const path = require('node:path');
 const os = require('node:os');
@@ -11,12 +11,6 @@ const MARKETPLACE = 'momonga';
 const PLUGIN_ID = 'momonga-search@momonga';
 // One budget for the whole update, below the 180 seconds the skill waits for this helper.
 const BUDGET = 150000;
-
-function parseArgs([binary, requiredText, command]) {
-  if (!binary || !/^[1-9]\d*$/.test(requiredText || '') || !Number.isSafeInteger(Number(requiredText)) || !command)
-    throw new Error('Expected desktop binary, positive required revision, and command ID');
-  return { binary, required: Number(requiredText), command };
-}
 
 const normalize = url => url.replace(/\.git\/?$/, '').replace(/\/$/, '');
 
@@ -191,13 +185,31 @@ async function refresh({ binary, required, command }, { home, scriptRoot, budget
   return { revision: latest.revision, version: latest.version, marketplace_ref: ref, commit, skill_path: skillPath };
 }
 
+async function check([binary, command, ...extra], options) {
+  const { home, scriptRoot } = options;
+  const release = JSON.parse(fs.readFileSync(path.join(scriptRoot, 'release.json'), 'utf8'));
+  if (!binary || extra.length || !Object.hasOwn(release.commands, command)) throw new Error('Expected a known command ID');
+  const validRevision = value => Number.isSafeInteger(value) && value > 0;
+  if (!validRevision(release.revision)) throw new Error('Invalid installed skill revision');
+  const response = await fetch(release.revisionUrl, { signal: AbortSignal.timeout(10000), redirect: 'error' });
+  if (!response.ok) throw new Error('Skill revision check failed: HTTP ' + response.status);
+  const { required_skill_revision: required } = await response.json();
+  if (!validRevision(required)) throw new Error('Invalid required skill revision');
+  if (release.revision >= required) return { status: 'ready' };
+  const teamCache = path.join(home, 'plugins/cache/workspace-directory/momonga-search');
+  if (path.dirname(scriptRoot) === teamCache)
+    throw new Error('会社配布のスキルに更新が必要です。ワークスペース管理者に新版の配布状況を確認し、反映後に新しいチャットで再実行してください。');
+  const updated = await refresh({ binary, required, command }, options);
+  return { status: 'updated', skill_path: updated.skill_path };
+}
+
 module.exports = { refresh };
 
 if (require.main === module) {
   for (const signal of ['SIGINT', 'SIGTERM', 'SIGHUP'])
     process.once(signal, () => { stopAllNow(); process.exit(128 + os.constants.signals[signal]); });
   Promise.resolve()
-    .then(() => refresh(parseArgs(process.argv.slice(2)), {
+    .then(() => check(process.argv.slice(2), {
       home: fs.realpathSync(process.env.CODEX_HOME || path.join(os.homedir(), '.codex')),
       scriptRoot: fs.realpathSync(path.resolve(__dirname, '..')),
     }))
