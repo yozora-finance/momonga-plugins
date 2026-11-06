@@ -4,4 +4,4 @@ description: 主張 1 件（または貼った資料の先頭の 1 文）の根�
 disable-model-invocation: true
 ---
 
-モモンガの `start_command` を command=`evidence`、client=`codex` で呼び、返された手順に従う。
+モモンガの `start_command` を `evidence` で呼び出し、返された手順に従う。

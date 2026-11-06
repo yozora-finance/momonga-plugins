@@ -4,4 +4,4 @@ description: 事業の TAM・SAM・SOM の候補を、開示とニュースか�
 disable-model-invocation: true
 ---
 
-モモンガの `start_command` を command=`tamsamsom`、client=`codex` で呼び、返された手順に従う。
+モモンガの `start_command` を `tamsamsom` で呼び出し、返された手順に従う。

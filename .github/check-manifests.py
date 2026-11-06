@@ -1,5 +1,6 @@
 """Validate client manifests using their generated marketplace source mappings."""
 import json
+import re
 from pathlib import Path
 
 root = Path(__file__).resolve().parent.parent
@@ -17,14 +18,11 @@ if claude.keys() != codex.keys():
 for name, source in codex.items():
     c = read(f"{claude[name]}/.claude-plugin/plugin.json")
     x = read(f"{source}/.codex-plugin/plugin.json")
-    release = read(f"{source}/release.json")
     if c["name"] != name or x["name"] != name:
         raise ValueError(f"{name}: manifest identity mismatch")
-    if c["version"] != x["version"] or x["version"] != release["version"]:
-        raise ValueError(f"{name}: all release versions must match")
-    if type(release["revision"]) is not int or release["revision"] < 1:
-        raise ValueError(f"{name}: positive integer skill revision required")
-    print(f"{name}: version {x['version']}, skill revision {release['revision']}")
+    if c["version"] != x["version"]:
+        raise ValueError(f"{name}: both client versions must match")
+    print(f"{name}: version {x['version']}")
     if x['mcpServers'] != './.mcp.json' or x['skills'] != './skills/':
         raise ValueError(f'{name}: bundled MCP and skills paths required')
     server = read(f'{source}/.mcp.json')['mcpServers']['momonga']
@@ -39,19 +37,19 @@ for name, source in codex.items():
     }:
         raise ValueError(f'{name}: registered public desktop OAuth settings required')
 
-# Each Codex command retains its shared skill content and a matching release mapping.
+# Both clients distribute the same thin skills: identical files under each plugin's skills folder.
 for name, source in codex.items():
-    release = read(f"{source}/release.json")
-    for command, relative in release['commands'].items():
-        shared = root / claude[name] / relative
-        generated = root / source / relative
-        if shared.read_text().split('---\n', 2)[:2] != generated.read_text().split('---\n', 2)[:2]:
-            raise ValueError(f'{name}: inconsistent shared skill for {command}')
-        if f"command=`{command}`" not in generated.read_text() or f"`{command}`" not in shared.read_text():
-            raise ValueError(f'{name}: incorrect command mapping for {command}')
-    scripts = root / source / 'scripts'
-    if {p.name for p in scripts.iterdir()} != {'refresh.sh', 'refresh.cjs'}:
-        raise ValueError(f'{name}: unexpected update helper files')
+    claude_skills = {p.relative_to(root / claude[name]): p.read_bytes() for p in (root / claude[name] / 'skills').glob('*/SKILL.md')}
+    codex_skills = {p.relative_to(root / source): p.read_bytes() for p in (root / source / 'skills').glob('*/SKILL.md')}
+    if not claude_skills or claude_skills != codex_skills:
+        raise ValueError(f'{name}: Claude and Codex must distribute the same skills')
+    for relative, body in codex_skills.items():
+        if not re.search(r'\n\nモモンガの `start_command` を `[a-z][a-z-]*` で呼び出し、返された手順に従う。\n$', body.decode()):
+            raise ValueError(f'{name}: {relative} must point at start_command with a command ID')
+    for plugin in (root / claude[name], root / source):
+        extra = {p.name for p in plugin.iterdir()} - {'.claude-plugin', '.codex-plugin', '.mcp.json', 'skills', '.DS_Store'}
+        if extra:
+            raise ValueError(f'{name}: unexpected files in {plugin.relative_to(root)}: {sorted(extra)}')
 
 # Every user registers their own connection; no account-specific app or connector ID is distributed.
 for path in [p for base in ('plugins', '.agents', '.claude-plugin') for p in (root / base).rglob('*')]:

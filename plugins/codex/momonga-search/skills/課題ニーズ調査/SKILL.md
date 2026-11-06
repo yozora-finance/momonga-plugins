@@ -4,4 +4,4 @@ description: 企業群の課題を言及社数の順に並べる。引用符つ�
 disable-model-invocation: true
 ---
 
-モモンガの `start_command` を command=`issue-needs`、client=`codex` で呼び、返された手順に従う。
+モモンガの `start_command` を `issue-needs` で呼び出し、返された手順に従う。

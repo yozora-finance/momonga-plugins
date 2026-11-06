@@ -9,8 +9,7 @@ import zipfile
 ROOT = Path(__file__).resolve().parent.parent
 package = runpy.run_path(str(ROOT / '.github/package-openai.py'))['package']
 SOURCE = ROOT / 'plugins/codex/momonga-search'
-SHARED = ROOT / 'plugins/momonga-search'
-RELEASE = json.loads((SOURCE / 'release.json').read_text())
+MANIFEST = json.loads((SOURCE / '.codex-plugin/plugin.json').read_text())
 
 
 def copy_repository(directory):
@@ -20,15 +19,14 @@ def copy_repository(directory):
 
 
 class DesktopPackageTest(unittest.TestCase):
-    def test_archive_supplies_stable_identity_connection_update_helper_and_all_command_skills(self):
+    def test_archive_supplies_stable_identity_connection_and_all_command_skills(self):
         with tempfile.TemporaryDirectory() as directory:
             output = Path(directory) / 'momonga.zip'
+            skills = [str(skill.relative_to(SOURCE)) for skill in sorted((SOURCE / 'skills').glob('*/SKILL.md'))]
             identity = package(ROOT, output)
-            self.assertEqual(identity, ('momonga-search', RELEASE['version']))
+            self.assertEqual(identity, ('momonga-search', MANIFEST['version'], len(skills)))
             with zipfile.ZipFile(output) as archive:
-                expected = ['.codex-plugin/plugin.json', '.mcp.json', 'release.json', 'scripts/refresh.cjs', 'scripts/refresh.sh']
-                expected += [str(skill.relative_to(SOURCE)) for skill in sorted((SOURCE / 'skills').glob('*/SKILL.md'))]
-                self.assertEqual(len(expected), 29)
+                expected = ['.codex-plugin/plugin.json', '.mcp.json'] + skills
                 self.assertEqual(sorted(archive.namelist()), sorted(expected))
                 for relative in expected:
                     self.assertEqual(archive.read(relative), (SOURCE / relative).read_bytes())

@@ -4,4 +4,4 @@ description: 固定した企業群の有報で、用語を書いた会社の数�
 disable-model-invocation: true
 ---
 
-モモンガの `start_command` を command=`term-trend`、client=`codex` で呼び、返された手順に従う。
+モモンガの `start_command` を `term-trend` で呼び出し、返された手順に従う。

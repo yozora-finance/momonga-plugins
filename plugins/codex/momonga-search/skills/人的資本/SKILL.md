@@ -4,4 +4,4 @@ description: 従業員数・平均年収・勤続・年齢を、連結／提出�
 disable-model-invocation: true
 ---
 
-モモンガの `start_command` を command=`human-capital`、client=`codex` で呼び、返された手順に従う。
+モモンガの `start_command` を `human-capital` で呼び出し、返された手順に従う。

@@ -4,4 +4,4 @@ description: 売り案件に似た会社・事業の買収事例を、取引形�
 disable-model-invocation: true
 ---
 
-モモンガの `start_command` を command=`past-acquisitions`、client=`codex` で呼び、返された手順に従う。
+モモンガの `start_command` を `past-acquisitions` で呼び出し、返された手順に従う。
