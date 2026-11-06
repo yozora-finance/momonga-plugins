@@ -1,5 +1,5 @@
 ---
-name: TAMSAMSOM
+name: tamsamsom
 description: 事業の TAM・SAM・SOM の候補を、開示とニュースから出典つきで揃える（/TAMSAMSOM）
 disable-model-invocation: true
 ---
