@@ -4,4 +4,4 @@ description: 設備の新設等の計画の総額・既支払額・残額・完�
 disable-model-invocation: true
 ---
 
-モモンガの `start_command` を command=`capex-plans`、client=`codex` で呼び、返された手順に従う。
+モモンガの `start_command` を `capex-plans` で呼び出し、返された手順に従う。

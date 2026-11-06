@@ -4,4 +4,4 @@ description: 1 社を起点に、相手側と自社の開示から取引先・�
 disable-model-invocation: true
 ---
 
-モモンガの `start_command` を command=`value-chain`、client=`codex` で呼び、返された手順に従う。
+モモンガの `start_command` を `value-chain` で呼び出し、返された手順に従う。

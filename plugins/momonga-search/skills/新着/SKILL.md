@@ -4,4 +4,4 @@ description: 企業リストの適時開示・EDINET・ニュース記事の3種
 disable-model-invocation: true
 ---
 
-モモンガの `start_command` を `news-feed` で呼び出し、取得した手順に沿って進める。
+モモンガの `start_command` を `news-feed` で呼び出し、返された手順に従う。

@@ -18,22 +18,21 @@ def package(root, output):
     manifest = json.loads((source / '.codex-plugin/plugin.json').read_text())
     if output.resolve().is_relative_to(source):
         raise ValueError('Output must be outside the generated plugin')
-    paths = [source / '.codex-plugin/plugin.json', source / '.mcp.json', source / 'release.json']
-    paths += [source / 'scripts/refresh.cjs', source / 'scripts/refresh.sh']
+    paths = [source / '.codex-plugin/plugin.json', source / '.mcp.json']
     skills = sorted((source / 'skills').glob('*/SKILL.md'))
-    if len(skills) != 24:
-        raise ValueError('Expected 24 command skills')
+    if not skills:
+        raise ValueError('Expected command skills')
     with zipfile.ZipFile(output, 'w', zipfile.ZIP_DEFLATED) as archive:
         for item in paths + skills:
             archive.writestr(str(item.relative_to(source)), item.read_bytes())
-    return manifest['name'], manifest['version']
+    return manifest['name'], manifest['version'], len(skills)
 
 
 if __name__ == '__main__':
     if len(sys.argv) != 2:
         sys.exit(__doc__)
     try:
-        name, version = package(ROOT, Path(sys.argv[1]))
-        print(f'{name}: version {version}, 24 skills -> {sys.argv[1]}')
+        name, version, count = package(ROOT, Path(sys.argv[1]))
+        print(f'{name}: version {version}, {count} skills -> {sys.argv[1]}')
     except (ValueError, KeyError, OSError) as error:
         sys.exit(str(error))

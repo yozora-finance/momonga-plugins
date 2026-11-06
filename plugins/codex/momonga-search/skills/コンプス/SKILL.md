@@ -4,4 +4,4 @@ description: 対象会社と事業が近い上場企業を、同じ観点・同�
 disable-model-invocation: true
 ---
 
-モモンガの `start_command` を command=`comps`、client=`codex` で呼び、返された手順に従う。
+モモンガの `start_command` を `comps` で呼び出し、返された手順に従う。

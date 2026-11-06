@@ -4,4 +4,4 @@ description: 事業を営む上場企業を、事業系統・該当事業の売�
 disable-model-invocation: true
 ---
 
-モモンガの `start_command` を command=`industry-map`、client=`codex` で呼び、返された手順に従う。
+モモンガの `start_command` を `industry-map` で呼び出し、返された手順に従う。

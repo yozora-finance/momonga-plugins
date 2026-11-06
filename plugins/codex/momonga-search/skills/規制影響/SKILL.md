@@ -4,4 +4,4 @@ description: 制度変更への言及と対応を、企業群の有報から期�
 disable-model-invocation: true
 ---
 
-モモンガの `start_command` を command=`regulation`、client=`codex` で呼び、返された手順に従う。
+モモンガの `start_command` を `regulation` で呼び出し、返された手順に従う。

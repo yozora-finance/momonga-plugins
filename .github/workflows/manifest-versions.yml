@@ -1,4 +1,4 @@
-# Resolve each client's source from its marketplace; both manifests must share a release version.
+# Resolve each client's source from its marketplace; both manifests share a version and the same thin skills.
 name: manifest-versions
 on:
   pull_request:
@@ -11,4 +11,3 @@ jobs:
       - uses: actions/checkout@v4
       - run: python3 .github/check-manifests.py
       - run: python3 .github/test-package.py
-      - run: node --test .github/test-refresh.cjs

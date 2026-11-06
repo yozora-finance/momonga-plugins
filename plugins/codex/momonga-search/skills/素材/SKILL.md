@@ -4,4 +4,4 @@ description: スライド 1 枚分の数値・引用・脚注と、それだけ�
 disable-model-invocation: true
 ---
 
-モモンガの `start_command` を command=`material`、client=`codex` で呼び、返された手順に従う。
+モモンガの `start_command` を `material` で呼び出し、返された手順に従う。
