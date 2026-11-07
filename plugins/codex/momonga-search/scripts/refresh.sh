@@ -1,5 +1,12 @@
 #!/bin/sh
 set -eu
+if [ "$#" -ne 1 ]; then
+  echo 'Expected COMMAND_ID' >&2
+  exit 1
+fi
+case "$1" in
+  ''|-*|*[!a-z-]*) echo 'Invalid command ID' >&2; exit 1 ;;
+esac
 # Workspace installations must not require a local update runtime or contact GitHub.
 plugin_root=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
 plugin_cache=$(dirname -- "$plugin_root")
@@ -11,7 +18,6 @@ if [ "$(basename -- "$cache_root")" = cache ] &&
   # Codex reserves these names for remote-managed packages; Git marketplaces cannot claim them.
   case "$(basename -- "$marketplace_cache")" in
     workspace-directory|workspace-shared-with-me|workspace-shared-with-me-private|workspace-shared-with-me-unlisted|created-by-me-remote|openai-curated-remote)
-      printf '%s\n' '{"status":"workspace_managed"}'
       exit 0
       ;;
   esac
