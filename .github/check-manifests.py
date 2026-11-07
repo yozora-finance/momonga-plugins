@@ -37,17 +37,30 @@ for name, source in codex.items():
     }:
         raise ValueError(f'{name}: registered public desktop OAuth settings required')
 
-# Both clients distribute the same thin skills: identical files under each plugin's skills folder.
+# Clients expose the same commands; Codex adds personal refresh instructions.
 for name, source in codex.items():
     claude_skills = {p.relative_to(root / claude[name]): p.read_bytes() for p in (root / claude[name] / 'skills').glob('*/SKILL.md')}
     codex_skills = {p.relative_to(root / source): p.read_bytes() for p in (root / source / 'skills').glob('*/SKILL.md')}
-    if not claude_skills or claude_skills != codex_skills:
-        raise ValueError(f'{name}: Claude and Codex must distribute the same skills')
+    if not claude_skills or claude_skills.keys() != codex_skills.keys():
+        raise ValueError(f'{name}: Claude and Codex must distribute the same command names')
     for relative, body in codex_skills.items():
-        if not re.search(r'\n\nモモンガの `start_command` を `[a-z][a-z-]*` で呼び出し、返された手順に従う。\n$', body.decode()):
+        dispatch = r'\n\nモモンガの `start_command` を `([a-z][a-z-]*)` で呼び出し、返された手順に従う。\n$'
+        actual = re.search(dispatch, body.decode())
+        expected = re.search(dispatch, claude_skills[relative].decode())
+        if not actual or not expected or actual.group(1) != expected.group(1):
             raise ValueError(f'{name}: {relative} must point at start_command with a command ID')
+        if body.decode().split('---', 2)[:2] != claude_skills[relative].decode().split('---', 2)[:2]:
+            raise ValueError(f'{name}: {relative} command metadata differs by client')
+    release = read(f'{source}/release.json')
+    if release['version'] != x['version'] or release['sourceRoot'] != source.removeprefix('./'):
+        raise ValueError(f'{name}: updater release identity mismatch')
+    if set(release['commands'].values()) != {str(relative) for relative in codex_skills}:
+        raise ValueError(f'{name}: updater must resolve every command skill')
     for plugin in (root / claude[name], root / source):
-        extra = {p.name for p in plugin.iterdir()} - {'.claude-plugin', '.codex-plugin', '.mcp.json', 'skills', '.DS_Store'}
+        allowed = {'.claude-plugin', '.codex-plugin', '.mcp.json', 'skills', '.DS_Store'}
+        if plugin == root / source:
+            allowed |= {'release.json', 'scripts'}
+        extra = {p.name for p in plugin.iterdir()} - allowed
         if extra:
             raise ValueError(f'{name}: unexpected files in {plugin.relative_to(root)}: {sorted(extra)}')
 
