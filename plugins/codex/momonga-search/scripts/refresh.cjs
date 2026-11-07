@@ -1,4 +1,4 @@
-// Updates this plugin from its GitHub marketplace and proves the runtime sees the required skill.
+// Checks daily; personal installations always return the requested analysis instructions.
 // Standalone: the update replaces the versioned cache directory containing this file.
 // Usage: node refresh.cjs CODEX_BINARY COMMAND_ID. Workspace installs are a no-op.
 const fs = require('node:fs');
@@ -7,13 +7,13 @@ const os = require('node:os');
 const { spawn } = require('node:child_process');
 
 const MARKETPLACE = 'momonga';
-const PLUGIN_ID = 'momonga-search@momonga';
 const MANAGED_MARKETPLACES = new Set([
   'workspace-directory', 'workspace-shared-with-me', 'workspace-shared-with-me-private',
   'workspace-shared-with-me-unlisted', 'created-by-me-remote', 'openai-curated-remote',
 ]);
-// One budget for the whole update, below the 180 seconds the skill waits for this helper.
+// One budget covers the update CLI operations.
 const BUDGET = 150000;
+const DAY = 24 * 60 * 60 * 1000;
 
 const normalize = url => url.replace(/\.git\/?$/, '').replace(/\/$/, '');
 
@@ -112,24 +112,58 @@ function cli(binary, env, deadline, args) {
   }));
 }
 
-// The Git ref and commit the marketplace snapshot is checked out at, as cloned by the Codex CLI.
-function snapshot(root) {
-  const git = path.join(root, '.git');
-  const head = fs.readFileSync(path.join(git, 'HEAD'), 'utf8').trim();
-  if (!head.startsWith('ref: ')) return { ref: head, commit: head };
-  const name = head.slice(5);
-  const loose = path.join(git, name);
-  const commit = fs.existsSync(loose) ? fs.readFileSync(loose, 'utf8').trim()
-    : fs.readFileSync(path.join(git, 'packed-refs'), 'utf8').split('\n').find(line => line.endsWith(' ' + name))?.split(' ')[0];
-  if (!/^[0-9a-f]{40}$/.test(commit || '')) throw new Error('Cannot read the marketplace commit of ' + name);
-  return { ref: name.replace(/^refs\/heads\//, ''), commit };
+function instructions(root, release, command) {
+  const relative = release.commands[command];
+  if (typeof relative !== 'string' || !relative.startsWith('skills/') || relative.includes('..')) throw new Error('Invalid command path');
+  const body = fs.readFileSync(path.join(root, relative), 'utf8');
+  const start = '<!-- momonga-refresh -->\n', end = '<!-- /momonga-refresh -->\n\n';
+  const begin = body.indexOf(start), finish = body.indexOf(end);
+  if (body.split(start).length !== 2 || body.split(end).length !== 2 || finish < begin)
+    throw new Error('Invalid refresh markers in ' + relative);
+  return body.slice(0, begin) + body.slice(finish + end.length);
+}
+
+function localInstructions(cache, release, command) {
+  const roots = fs.readdirSync(cache, { withFileTypes: true })
+    .filter(entry => entry.isDirectory() && fs.existsSync(path.join(cache, entry.name, 'release.json')))
+    .map(entry => path.join(cache, entry.name));
+  if (roots.length !== 1) throw new Error('Expected exactly one installed Momonga release');
+  const current = JSON.parse(fs.readFileSync(path.join(roots[0], 'release.json'), 'utf8'));
+  if (current.repository !== release.repository || current.sourceRoot !== release.sourceRoot)
+    throw new Error('The installed release identity changed');
+  return instructions(roots[0], current, command);
+}
+
+function recent(success, release) {
+  const age = success ? Date.now() - success.checked_at : DAY;
+  return success && success.repository === release.repository && success.source_root === release.sourceRoot &&
+    age >= 0 && age < DAY;
+}
+
+function lastSuccess(db) {
+  const table = db.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name='refresh_success'").get();
+  return table ? db.prepare('SELECT repository, source_root, checked_at FROM refresh_success WHERE id=1').get() : undefined;
+}
+
+function readSuccess(file, deadline) {
+  if (!fs.existsSync(file)) return undefined;
+  const { DatabaseSync } = require('node:sqlite');
+  const db = new DatabaseSync(file, { readOnly: true, timeout: remaining(deadline) });
+  try { return lastSuccess(db); }
+  catch (error) {
+    // SQLITE_READONLY_ROLLBACK: a killed writer left a hot rollback journal.
+    // Reopen through the normal writable transaction so SQLite can recover it.
+    if (error.code === 'ERR_SQLITE_ERROR' && error.errcode === 776) return undefined;
+    throw error;
+  } finally { db.close(); }
 }
 
 async function refresh({ binary, command }, { home, scriptRoot, budget = BUDGET }) {
+  if (!/^[a-z][a-z-]*$/.test(command)) throw new Error('Invalid command ID');
   const pluginCache = path.dirname(scriptRoot), marketCache = path.dirname(pluginCache), cacheRoot = path.dirname(marketCache);
   if (path.basename(pluginCache) === 'momonga-search' && path.basename(cacheRoot) === 'cache' &&
       path.basename(path.dirname(cacheRoot)) === 'plugins' && MANAGED_MARKETPLACES.has(path.basename(marketCache)))
-    return { status: 'workspace_managed' };
+    return '';
   home = fs.realpathSync(home);
   const release = JSON.parse(fs.readFileSync(path.join(scriptRoot, 'release.json'), 'utf8'));
   if (!Object.hasOwn(release.commands, command)) throw new Error('Unknown command: ' + command);
@@ -138,27 +172,51 @@ async function refresh({ binary, command }, { home, scriptRoot, budget = BUDGET 
   const env = { ...process.env, CODEX_HOME: home, RUST_LOG: 'error' };
   const deadline = Date.now() + budget;
 
-  const market = (await cli(binary, env, deadline, ['plugin', 'marketplace', 'list'])).marketplaces.find(entry => entry.name === MARKETPLACE);
-  if (market?.marketplaceSource?.sourceType !== 'git' || normalize(market.marketplaceSource.source) !== release.repository)
-    throw new Error('The momonga marketplace is not the GitHub repository ' + release.repository);
-  // Upgrades only this marketplace: fetches GitHub and refreshes its installed plugins' cache.
-  const upgrade = await cli(binary, env, deadline, ['plugin', 'marketplace', 'upgrade', MARKETPLACE]);
-  if (upgrade.errors.length) throw new Error('Marketplace upgrade failed: ' + JSON.stringify(upgrade.errors));
+  // The memo and its transaction lock survive replacement of a versioned cache directory.
+  const memo = path.join(home, 'plugins/data/momonga-search-momonga/refresh.sqlite');
+  if (recent(readSuccess(memo, deadline), release)) return localInstructions(cache, release, command);
 
-  const source = path.join(market.root, release.sourceRoot);
-  const latest = JSON.parse(fs.readFileSync(path.join(source, 'release.json'), 'utf8'));
-  if (latest.repository !== release.repository || latest.sourceRoot !== release.sourceRoot)
-    throw new Error('The fetched release metadata does not match the installed plugin');
-  const { ref, commit } = snapshot(market.root);
-  if (!/^\d+\.\d+\.\d+$/.test(latest.version)) throw new Error('Invalid release version');
-  const installed = path.join(cache, latest.version);
-  if (!fs.existsSync(installed) || !sameRelease(source, installed))
-    throw new Error(`Version ${latest.version} was fetched but is not installed in the plugin cache; check that Momonga is installed and enabled`);
+  fs.mkdirSync(path.dirname(memo), { recursive: true });
+  const { DatabaseSync } = require('node:sqlite');
+  const db = new DatabaseSync(memo, { timeout: remaining(deadline) });
+  try {
+    db.exec(`CREATE TABLE IF NOT EXISTS refresh_success (
+      id INTEGER PRIMARY KEY CHECK (id = 1),
+      repository TEXT NOT NULL, source_root TEXT NOT NULL, checked_at INTEGER NOT NULL
+    )`);
+    // SQLite releases the lock on exit/crash. Recheck after waiting for another updater.
+    db.exec('BEGIN IMMEDIATE');
+    if (recent(lastSuccess(db), release)) {
+      const body = localInstructions(cache, release, command);
+      db.exec('COMMIT');
+      return body;
+    }
+    const market = (await cli(binary, env, deadline, ['plugin', 'marketplace', 'list'])).marketplaces.find(entry => entry.name === MARKETPLACE);
+    if (market?.marketplaceSource?.sourceType !== 'git' || normalize(market.marketplaceSource.source) !== release.repository)
+      throw new Error('The momonga marketplace is not the GitHub repository ' + release.repository);
+    // Upgrades only this marketplace: fetches GitHub and refreshes its installed plugins' cache.
+    const upgrade = await cli(binary, env, deadline, ['plugin', 'marketplace', 'upgrade', MARKETPLACE]);
+    if (upgrade.errors.length) throw new Error('Marketplace upgrade failed: ' + JSON.stringify(upgrade.errors));
 
-  const relative = latest.commands[command];
-  if (typeof relative !== 'string' || !relative.startsWith('skills/') || relative.includes('..')) throw new Error('Invalid command path');
-  const skillPath = path.join(installed, relative);
-  return { status: 'ready', version: latest.version, marketplace_ref: ref, commit, skill_path: skillPath, skill_body: fs.readFileSync(skillPath, 'utf8') };
+    const source = path.join(market.root, release.sourceRoot);
+    const latest = JSON.parse(fs.readFileSync(path.join(source, 'release.json'), 'utf8'));
+    if (latest.repository !== release.repository || latest.sourceRoot !== release.sourceRoot)
+      throw new Error('The fetched release metadata does not match the installed plugin');
+    if (!/^\d+\.\d+\.\d+$/.test(latest.version)) throw new Error('Invalid release version');
+    const installed = path.join(cache, latest.version);
+    if (!fs.existsSync(installed) || !sameRelease(source, installed))
+      throw new Error(`Version ${latest.version} was fetched but is not installed in the plugin cache; check that Momonga is installed and enabled`);
+
+    const body = instructions(installed, latest, command);
+    db.prepare('INSERT OR REPLACE INTO refresh_success (id, repository, source_root, checked_at) VALUES (1, ?, ?, ?)')
+      .run(release.repository, release.sourceRoot, Date.now());
+    db.exec('COMMIT');
+    return body;
+  } finally {
+    // Closing an uncommitted transaction rolls it back: failures never advance the memo.
+    db.close();
+  }
+
 }
 
 module.exports = { refresh };
@@ -175,6 +233,6 @@ if (require.main === module) {
         scriptRoot: fs.realpathSync(path.resolve(__dirname, '..')),
       });
     })
-    .then(result => process.stdout.write(JSON.stringify(result) + '\n'))
+    .then(instructions => process.stdout.write(instructions))
     .catch(error => { process.stderr.write('Momonga update failed: ' + error.message + '\n'); process.exitCode = 1; });
 }
