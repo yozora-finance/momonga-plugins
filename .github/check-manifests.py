@@ -1,6 +1,5 @@
 """Validate client manifests using their generated marketplace source mappings."""
 import json
-import re
 from pathlib import Path
 
 root = Path(__file__).resolve().parent.parent
@@ -37,29 +36,17 @@ for name, source in codex.items():
     }:
         raise ValueError(f'{name}: registered public desktop OAuth settings required')
 
-# Clients expose the same commands; Codex adds personal refresh instructions.
+# Both clients expose the same thin command wrappers without an updater.
 for name, source in codex.items():
     claude_skills = {p.relative_to(root / claude[name]): p.read_bytes() for p in (root / claude[name] / 'skills').glob('*/SKILL.md')}
     codex_skills = {p.relative_to(root / source): p.read_bytes() for p in (root / source / 'skills').glob('*/SKILL.md')}
     if not claude_skills or claude_skills.keys() != codex_skills.keys():
         raise ValueError(f'{name}: Claude and Codex must distribute the same command names')
     for relative, body in codex_skills.items():
-        dispatch = r'\n\nモモンガの `start_command` を `([a-z][a-z-]*)` で呼び出し、返された手順に従う。\n$'
-        actual = re.search(dispatch, body.decode())
-        expected = re.search(dispatch, claude_skills[relative].decode())
-        if not actual or not expected or actual.group(1) != expected.group(1):
-            raise ValueError(f'{name}: {relative} must point at start_command with a command ID')
-        if body.decode().split('---', 2)[:2] != claude_skills[relative].decode().split('---', 2)[:2]:
-            raise ValueError(f'{name}: {relative} command metadata differs by client')
-    release = read(f'{source}/release.json')
-    if release['version'] != x['version'] or release['sourceRoot'] != source.removeprefix('./'):
-        raise ValueError(f'{name}: updater release identity mismatch')
-    if set(release['commands'].values()) != {str(relative) for relative in codex_skills}:
-        raise ValueError(f'{name}: updater must resolve every command skill')
+        if body != claude_skills[relative]:
+            raise ValueError(f'{name}: {relative} must match the thin Claude command wrapper')
     for plugin in (root / claude[name], root / source):
         allowed = {'.claude-plugin', '.codex-plugin', '.mcp.json', 'skills', '.DS_Store'}
-        if plugin == root / source:
-            allowed |= {'release.json', 'scripts'}
         extra = {p.name for p in plugin.iterdir()} - allowed
         if extra:
             raise ValueError(f'{name}: unexpected files in {plugin.relative_to(root)}: {sorted(extra)}')
